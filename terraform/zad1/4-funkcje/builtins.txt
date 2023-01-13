@@ -1,0 +1,15 @@
+file()             # reads file from path and output it
+abspath(path.root) # absolute path to file
+jsonencode()       # encode to jsonencode({"hello"="world"}) -> {"hello":"world"} 
+jsondecode()       # decode from json (reversed example above)
+cidrsubnet()       # calculate subnet e.g. cidrsubnet("10.1.2.0/24", 4, 15) -> 10.1.2.240/28
+sha512()           # encoded hash sha512
+uuid()             # universal unique id
+abs()              # absolute value (1 -> 1, -1 -> 1)
+min() - max()      # min/max from complex
+lower() - upper()  # lower / UPPER cased 
+replace()          # some string -> other string
+regex()            # match/search/replace by pattern
+
+Complete list:
+https://developer.hashicorp.com/terraform/language/functions

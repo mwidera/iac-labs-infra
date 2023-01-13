@@ -1,0 +1,4 @@
+[submodule "iac-labs"]
+	path = iac-labs
+	url = https://github.com/mwidera/iac-labs.git
+	branch = lab-2
