@@ -154,7 +154,7 @@ Pytania:
 Tworzenie stosu przykładowej aplikacji na chmurze AWS
 Do tego celu jak w poprzednim laboratorium wykorzystamy AppRunner, ECR oraz obraz który będzie dostarczony do repozytorium
 
-- Przejdź do katalogu `terraform/zad3/apprunner`
+- Przejdź do katalogu `terraform/zad4/apprunner`
 - Zainicjuj narzędzie terraform wykorzystując polecenie `terraform init`
 - Zaobserwuj jakie zależności zostały pobrane
 - Wykonaj polecenie tworzące plan aplikowania infrastruktury: `terraform plan`
@@ -168,6 +168,13 @@ Część druga: dodawanie ECR:
 - Wybuduj obraz aplikacji z wykorzystaniem obrazu dockera
 - Stwórz repozytorium obrazów z wykorzystaniem polecenia `terraform apply -target aws_ecr_repository.demo-repository`
 - Wypchnij obraz do repozytorium obrazów
+
+Notka dla osób z PlayWithDocker (ECR View Push Commands):
+
+  1. Skopiuj pierwszą częśc do znaku `|` i wykonaj w Cloud Console
+  2. Ustaw zmienną np foo=<CTRL+SHIFT+V>
+  3. Wydaj resztę polecenia które znajdziesz w ECR zmieniając `--password-stdin` na `--password $foo`
+
 - Zmodyfikuj AppRunner w taki sposób by wykorzystywał on ten obraz dockera do uruchomienia aplikacji
 W tym celu wykorzystaj [dokumentacje](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/apprunner_service)
 - Zaaplikuj zmiany poleceniem `terraform apply`
