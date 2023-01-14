@@ -51,7 +51,23 @@ Instalacja narzędzi na platformie Play-With-Docker:
 
 ## Zadanie 1: Terraform składnia, idempotentność, modularność
 
+- Ustaw następujące zmienne systemowe (klucz i sekret pobierz z konta AWSowego)
+
+  *Dla osób bez dostępu do AWSa:* Ustaw takie jak widzisz, lecz nie wydawaj polecenia `terraform apply`!
+
+  ```bash
+  export AWS_ACCESS_KEY_ID=ALAMAKOTAASDASDX
+  export AWS_SECRET_ACCESS_KEY="przykladowykluczo2KyARbABVJavS2b1234"
+  ```
+
 - Wykonaj klonowanie repozytorium do przestrzeni roboczej
+- Wydaj polecenie pobrania git modułu (potrzebne do zadań 3 i 6):
+
+  ```bash
+  git submodule init
+  git submodule update
+  ```
+
 - Przejdź do katalogu terraform/zad1
 - Kolejne zadania 1-import, 2-zmienne, 3-moduły, 4-funkcje pozwolą poznać składnie
 - Przejdź do każdego z wymienionych wyżej katalogów otwierając plik `main.tf` jako funkcje główną programu
@@ -149,7 +165,7 @@ W tym celu wykorzystaj [dokumentacje](https://registry.terraform.io/providers/ha
 ## Zadanie 5 - Pulumi
 
 - Przejdź do katalogu pulumi/zad1
-- Wykonaj polecenie `pulumi new aws-python`
+- Wykonaj polecenie `pulumi new aws-python --force`
 - Podaj parametry wykonania np. `project name: zad1`, `project description: Empty`, `stack name: nr_indeksu`
 - Zapoznaj się z zawartością stworzonego projektu w pliku `__main__.py`
 - Wydaj polecenie `pulumi up`
