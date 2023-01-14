@@ -79,6 +79,10 @@ Instalacja narzędzi na platformie Play-With-Docker:
 - Wydaj raz jeszcze polecenie `terraform plan/apply` by sprawdzić, czy stos jest idempotentny
 - Zniszcz środowisko poleceniem `terraform destroy`
 
+Notka:
+
+- Dla zadania 3-module w linii 47 pliku `main.tf` zmodyfikuj AMI przed zaaplikowaniem w innej chmurze!
+
 Pytania:
 
 - Wyjaśnij zasadę działania sekcji `variables` oraz `outputs`
@@ -105,6 +109,14 @@ Zadanie jest zbliżone do poprzedniego z tym wyjątkiem, iz do jego realizacji n
 - Zaaplikuj plan poleceniem `terraform apply`
 - Zweryfikuj działanie stworzonej infrastruktury
 - Zmodyfikuj infrastrukturę zmieniając oznaczenie obrazu wykorzystując zasób [docker_tag](https://registry.terraform.io/providers/kreuzwerker/docker/latest/docs/resources/tag)
+  Przykładowy zasób jaki należy dodać do :
+
+  ```terraform
+  resource "docker_tag" "tag_<indeks>" {
+    <<wykorzystaj_dokumentacje>>
+  }
+  ```
+
 - Zaaplikuj zmiany poleceniami `terraform plan` i `terraform apply`
 - Zniszcz środowisko poleceniem `terraform destroy`
 
