@@ -1,247 +1,277 @@
-# Laboratorium numer 3
+# Laboratorium numer 4
 
-Terraform:
-
-- Składnia
-- Modularyzacja
-- Idempotentność
-
-Tworzenie stosów na platformie AWS
-
-Pulumi:
-
-- Składnia
-- Modularyzacja
-- Idempotentność
-
-Tworzenie stosów na platformie AWS
+Pierwsze dwa zadania będą skoncentrowane na kubernetes
+Kolejne zadanie jest przykładem analizy pod kontem bezpieczeństwa
+Ostatnie zadanie wymaga platformy AWS, więc niezbędne będzie ustawienie kluczy dostępu do naszego konta w celu wdrożenia funkcji (elementu bezserwerowego)
 
 ## Przed laboratorium
 
-Dokumentacja narzędzi użytych do realizacji zadania:
+Ćwiczenia 1-3 można wykonywać na platformach:
 
--[Terraform](https://developer.hashicorp.com/terraform/docs)
--[Pulumi](https://www.pulumi.com/docs/get-started/)
+- [Killercoda](https://killercoda.com/kubernetes/scenario): Dostęp jest tylko do jednej maszyny wirtualnych i tylko na 60 minut
+- [Play-With-Kubernetes](https://labs.play-with-k8s.com/): Można tworzyć więcej maszyn wirtualnych i na 3 godziny, lecz występują ograniczenia patrz komentarz niżej
 
--[Dokumentacja zasobów terraform](https://registry.terraform.io/browse/providers)
--[Dokumentacja zasobów pulumi](https://www.pulumi.com/registry/)
+Uwaga: Niestety przez to, iz Play With Kubernetes ma ograniczone zasoby czasami będzie należało stworzyć ponownie maszynę od zera z uwagi na nietypowe błędy w tworzeniu maszyn wirtualnych
 
-Instalacja zależności:
+## Zadanie 1: Tworzenie klastra Kubernetes
 
-- [Terraform](https://developer.hashicorp.com/terraform/downloads)
-- [Pulumi](https://www.pulumi.com/docs/get-started/aws/begin/)
+Kroki obowiązkowe tylko dla portalu: PWK (_Play With Kubernetes_)
 
-Adres repozytorium:
-[https://github.com/mwidera/iac-labs-infra](https://github.com/mwidera/iac-labs-infra)
+- Wydaj polecenie: `kubeadm init --apiserver-advertise-address $(hostname -i) --pod-network-cidr 10.5.0.0/16`
+- Poczekaj na zakończenie polecenia - może zając to parę minut
+- Stwórz nową maszynę wirtualną (node2)
+- (Node1): Skopiuj klucz wyglądający podobnie do zaprezentowanego `kubeadm join --token TOKEN ADDRESS --discovery-token-ca-cert-hash HASH`
+- (Node2): Wklej go i uruchom
+- (Node2): Obserwuj dołączanie do klastra
+- (Node1): Wydaj polecenie `kubectl apply -f https://raw.githubusercontent.com/cloudnativelabs/kube-router/master/daemonset/kubeadm-kuberouter.yaml`
+- (Node1): Poczekaj na zakończenie się skryptu
+- (Node1): Wydaj polecenie `kubectl get nodes`
 
-Instalacja narzędzi na platformie Play-With-Docker:
+Drugi etap zadania to uruchamianie Podów na klastrze
+Do tego celu należy stworzyć wdrożenie (_deployment_)
 
-1. Terraform:
-  
-- Wykonaj polecenie: `wget https://releases.hashicorp.com/terraform/1.3.7/terraform_1.3.7_linux_amd64.zip`
-- Wykonaj polecenie: `unzip terraform_1.3.7_linux_amd64.zip`
-- Przesuń plik: `mv terraform /usr/local/bin`
-- Sprawdź działanie aplikacji: `terraform --version`
+- (Node1): Wykonaj następującą komendę: `kubectl apply -f https://k8s.io/examples/application/deployment.yaml`
+- (Node1): Wyświetl informacje o tym w jakim stanie jest wdrożenie: `kubectl describe deployment nginx-deployment`
+- (Node1): Sprawdź czy wdrożenie powiodło i Pody zostały uruchomione prawidłowo: `kubectl get pods -l app=nginx`
+- (Node1): Skopiuj nazwę jednego z nich i wyświetl szczegóły z wykorzystaniem komendy `kubectl describe pod <nazwa>`
+- (Node1): Aktualizacja wdrożenia (_deployment_): Wykonaj następujące polecenie: `kubectl apply -f https://k8s.io/examples/application/deployment-update.yaml`
+- (Node1): Zaobserwuj jak poprzednie Pody są usuwane, a nowe wdrażane: `kubectl get pods -l app=nginx`
+- (Node1): Edytuj wdrożenie poleceniem: `kubectl edit deployment/nginx-deployment` i zmień ilość replik z 2 na 4, a następnie zapisz plik
+- (Node1): Zaobserwuj wdrożona zmianę `kubectl get pods`
+- (Node1): Tymczasowo upublicznij serwer nginx poleceniem: `kubectl port-forward <pod> 80:80 --address=0.0.0.0`
+- (Node1): Przetestuj działanie przechodząc do adresu na porcie 80
+Notka: W przypadku Killercoda naciśnij w prawym górnym rogu znak: ≡ i wybierz `Traffic/Ports`
 
-1. Pulumi
-
-- Wykonaj polecenie: `curl -fsSL https://get.pulumi.com | sh`
-- Ustaw zmienną PATH: `export PATH=$PATH:/root/.pulumi/bin`
-- Zweryfikuj działanie `pulumi version`
-
-## Zadanie 1: Terraform składnia, idempotentność, modularność
-
-- Ustaw następujące zmienne systemowe (klucz i sekret pobierz z konta AWSowego)
-
-  *Dla osób bez dostępu do AWSa:* Ustaw takie jak widzisz, lecz nie wydawaj polecenia `terraform apply`!
-
-  ```bash
-  export AWS_ACCESS_KEY_ID=ALAMAKOTAASDASDX
-  export AWS_SECRET_ACCESS_KEY="przykladowykluczo2KyARbABVJavS2b1234"
-  ```
-
-- Wykonaj klonowanie repozytorium do przestrzeni roboczej
-- Wydaj polecenie pobrania git modułu (potrzebne do zadań 3 i 6):
-
-  ```bash
-  git submodule init
-  git submodule update
-  ```
-
-- Przejdź do katalogu terraform/zad1
-- Kolejne zadania 1-import, 2-zmienne, 3-moduły, 4-funkcje pozwolą poznać składnie
-- Przejdź do każdego z wymienionych wyżej katalogów otwierając plik `main.tf` jako funkcje główną programu
-- Wykonaj polecenie inicjujące narzędzie: `terraform init`
-- Zaobserwuj jakie zależności zostały pobrane
-- Wykonaj polecenie tworzące plan aplikowania infrastruktury: `terraform plan`
-- Zaaplikuj plan poleceniem `terraform apply`
-- Zweryfikuj działanie stworzonej infrastruktury
-- Wydaj raz jeszcze polecenie `terraform plan/apply` by sprawdzić, czy stos jest idempotentny
-- Zniszcz środowisko poleceniem `terraform destroy`
-
-Notka:
-
-- Dla zadania 3-module w linii 47 pliku `main.tf` zmodyfikuj AMI przed zaaplikowaniem w innej chmurze!
+- Ostatnim elementem jest uruchomienie przykładowej aplikacji z gotowego scenariusza:
+[aplikacja](https://killercoda.com/linkerd/scenario/demo-app)
+(Proszę przeklinać i otrzymamy gotową aplikacje do glosowania na emoji)
 
 Pytania:
 
-- Wyjaśnij zasadę działania sekcji `variables` oraz `outputs`
-- Jakie ma zastosowanie blok kodu umieszczony poniżej?
+- Porównaj Kubernetes do Dockera
 
-  ```terraform
-  provider "aws" {
-    region = "eu-central-1"
-  }
+## Zadanie 2: Helm i helm chart
 
-  provider "aws" {
-    alias  = "east"
-    region = "us-east-1"
-  }
-  ```
+Kroki obowiązkowe tylko dla portalu: PWK (_Play With Kubernetes_)
 
-## Zadanie 2: Terraform lokalnie
+- Pobierz na maszynę następujące archiwum:
+  `curl -fsSL -o helm.tar.gz https://get.helm.sh/helm-v3.11.0-linux-amd64.tar.gz`
+- Rozpakuj archiwum: `tar -zxvf helm.tar.gz`
+- Przenieś aplikacje: `mv linux-amd64/helm /usr/local/bin/helm`
+- Sprawdź działanie poleceniem: `helm version --short` i spodziewany efekt: `v3.11.0+g472c573`
 
-Zadanie jest zbliżone do poprzedniego z tym wyjątkiem, iz do jego realizacji nie jest niezbędny AWS
+Druga cześć zadania jest oparta o poprzednie wdrożenie serwera nginx
 
-- Wykonaj polecenie inicjujące narzędzie: `terraform init`
-- Zaobserwuj jakie zależności zostały pobrane
-- Wykonaj polecenie tworzące plan aplikowania infrastruktury: `terraform plan`
-- Zaaplikuj plan poleceniem `terraform apply`
-- Zweryfikuj działanie stworzonej infrastruktury
-- Zmodyfikuj infrastrukturę zmieniając oznaczenie obrazu wykorzystując zasób [docker_tag](https://registry.terraform.io/providers/kreuzwerker/docker/latest/docs/resources/tag)
-  Przykładowy zasób jaki należy dodać do :
+- Stwórz folder nowego wdrożenia poleceniem: `helm create nginx-chart`
+- Przejdź do katalogu `nginx-chart` i usuń zawartość `templates` oraz folder `charts`
+- Otwórz plik `Chart.yaml`
+- Zmień zawartość pliku na:
 
-  ```terraform
-  resource "docker_tag" "tag_<indeks>" {
-    <<wykorzystaj_dokumentacje>>
-  }
-  ```
+```yaml
+apiVersion: v2
+name: nginx-chart
+description: nginx backend
+type: application 
+version: 0.1.0
+appVersion: "1.0.0"
+```
 
-- Zaaplikuj zmiany poleceniami `terraform plan` i `terraform apply`
-- Zniszcz środowisko poleceniem `terraform destroy`
+Trochę opisu:
+apiVersion - wersja aktualnie używanego API (v1 lub v2)
+type - można również tworzyć biblioteki (library)
+version - wersja tego pliku
+appVersion - wersja naszej aplikacji
+
+- Otwórz plik `values.yaml` i dodaj w nim:
+
+```yaml
+replicaCount: 4
+
+image:
+  repository: nginx
+  tag: "1.20.0"
+  pullPolicy: IfNotPresent
+
+service:
+  name: nginx-service
+  type: ClusterIP
+  port: 80
+  targetPort: 9000
+
+env:
+  name: dev
+```
+
+- Dodaj plik `templates/deployment.yaml`
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: "nginx:1.16.0"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+```
+
+- Ten plik na chwilę obecną nie jest jeszcze dynamicznie edytowalny, więc potrzebujemy zmodyfikować pola, które będą korzystać z elementów zadeklarowanych w pliku `Chart.yaml`
+- Zamień nazwę (_name_) kontenera z `nginx` na `{{ .Chart.Name }}`
+- Zamień ilość zreplikowanych Podów na wartość `{{ .Values.replicaCount }}`
+- Zamień obraz kontenera na `image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"`
+- Zamień politykę obierania obrazu na `imagePullPolicy: {{ .Values.image.pullPolicy }}`
+- Do katalogu `templates` dodaj kolejny plik `configmap.yaml`
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-index-html-configmap
+  namespace: default
+data:
+  index.html: |
+    <html>
+    <h1>Welcome</h1>
+    </br>
+    <h1>Hello World from {{ .Values.env.name }} Environment using Helm</h1>
+    </html
+```
+
+- Oraz tak samo jak wyżej plik `service.yaml`
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-service
+spec:
+  selector:
+    app.kubernetes.io/instance: {{ .Release.Name }}
+  type: {{ .Values.service.type }}
+  ports:
+    - protocol: {{ .Values.service.protocol | default "TCP" }}
+      port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort }}
+```
+
+Zauważ, ze protokół ma wartość domyślna ustawiona przez znak `|`
+
+- Teraz z lini komend jeśli jesteś w katalogu `nginx-chart` wydaj polecenie `helm lint .`
+- Teraz wygeneruj plan wdrożenia `helm template .` czyli docelowy wygląd wdrożenia
+- Jeśli wszystko poszło pomyślnie i nie ma błędów (_Error_) możemy wydać polecenie instalowania: `helm install nginx nginx-chart`
+- Zweryfikuj pomyślne wdrożenie poleceniami:
+  - `helm list` (zwróć uwagę, iz narzędzie inkrementuje wersje przez klucz `REVISION`)
+  - `kubectl get deployment`
+  - `kubectl get configmap`
+  - `kubectl get services`
+  - `kubectl get pods`
+
+Jeśli wszystko działa prawidłowo możesz zaktualizować dane wdrożenie przy użyciu pliku (stwórz go np. w katalogu głównym `envs/prod.yaml`)
+
+```yaml
+replicaCount: 10
+
+image:
+  repository: nginx
+  tag: "1.20.0"
+  pullPolicy: IfNotPresent
+
+service:
+  name: nginx-service
+  type: ClusterIP
+  port: 80
+  targetPort: 9000
+
+env:
+  name: prod
+```
+
+- Wdrożenie tym razem wykonaj przy użyciu aktualizacji (nie instalacji): `helm upgrade nginx --values envs/prod.yaml`
+- Sprawdź czy aplikacja została wyskalowana do 10 replik
+- Przeciwnie do `upgrade` Helm wspiera również `rollback`, wykonaj polecenie i odnotuj rezultat
+- Usuń wdrożenie (_deployment_) `helm uninstall nginx`
 
 Pytania:
 
-- Wyjaśnij jest plik `terraform.tfstate`
-- Wyjaśnij w jaki sposób współdzielenie `terraform.tfstate` zagwarantuje idempotentne podejście tworzenia infrastruktury
+- Czym jest Helm dla Kubernetes?
 
-## Zadanie 3: Uruchomienie example-app
+## Zadanie 3: Analiza bezpieczeństwa
 
-Uruchomienie aplikacji lokalnie jako element odwzorowania środowiska docelowego
+Ostatnim zadaniem będzie zapoznanie się z narzędziami pozwalającymi na wykrywanie potencjalnych problemów w naszym kodzie
 
-- Przejdź do katalogu terraform/zad3
-- Zapoznaj się ze składnią stworzonego stosu
-- Dodaj brakujący zasób (bazę danych) z wykorzystaniem sekcji `resource`
-  Składnia kontenera dostępna jest pod tym [adresem](https://registry.terraform.io/providers/kreuzwerker/docker/latest/docs/resources/container)
-  Kontener nazwij `db`
-  Obraz na którym bazujesz to `resource "docker_image" "postgres"` opisany w pliku `images.tf`
-  Podepnij kontener do wspólnej wirtualnej sieci `tfnet`
-  Dodaj zmienne środowiskowe niezbędne do poprawnego działania stworzonego kontenera:
+Pierwszym narzędziem jest [Terrascan](https://github.com/tenable/terrascan)
 
-  ```bash
-    "POSTGRES_DB=app",
-    "POSTGRES_USER=app_user",
-    "POSTGRES_PASSWORD=app_pass"
-  ```
-
-Pytania:
-
-- Porównaj podejście do tworzenia lokalnego środowiska z wykorzystaniem docker-compose oraz terraform
-- Podaj zalety tak realizowanego lokalnego środowiska
-
-## Zadanie 4 - Terraform i AWS
-
-Tworzenie stosu przykładowej aplikacji na chmurze AWS
-Do tego celu jak w poprzednim laboratorium wykorzystamy AppRunner, ECR oraz obraz który będzie dostarczony do repozytorium
-
-- Przejdź do katalogu `terraform/zad4/apprunner`
-- Zainicjuj narzędzie terraform wykorzystując polecenie `terraform init`
-- Zaobserwuj jakie zależności zostały pobrane
-- Wykonaj polecenie tworzące plan aplikowania infrastruktury: `terraform plan`
-- Zaobserwuj ile zasobów planuje stworzyć narzędzie
-- Zaaplikuj plan poleceniem `terraform apply`
-- Zweryfikuj działanie stworzonej infrastruktury klikając w adres podany w wyniku
-  
-Część druga: dodawanie ECR:
-
-- Przejdź do katalogu `../ecr`
-- Wybuduj obraz aplikacji z wykorzystaniem obrazu dockera
-- Stwórz repozytorium obrazów z wykorzystaniem polecenia `terraform apply -target aws_ecr_repository.demo-repository`
-- Wypchnij obraz do repozytorium obrazów
-
-Notka dla osób z PlayWithDocker (ECR View Push Commands):
-
-  1. Skopiuj pierwszą częśc do znaku `|` i wykonaj w Cloud Console
-  2. Ustaw zmienną np foo=<CTRL+SHIFT+V>
-  3. Wydaj resztę polecenia które znajdziesz w ECR zmieniając `--password-stdin` na `--password $foo`
-
-- Zmodyfikuj AppRunner w taki sposób by wykorzystywał on ten obraz dockera do uruchomienia aplikacji
-W tym celu wykorzystaj [dokumentacje](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/apprunner_service)
-- Zaaplikuj zmiany poleceniem `terraform apply`
-- Po uruchomieniu i zweryfikowaniu działania aplikacji zniszcz środowisko `terraform destroy`
-  Czy usunięte zostały wszystkie elementy?
-
-## Zadanie 5 - Pulumi
-
-- Przejdź do katalogu pulumi/zad1
-- Wykonaj polecenie `pulumi new aws-python --force`
-- Podaj parametry wykonania np. `project name: zad1`, `project description: Empty`, `stack name: nr_indeksu`
-- Zapoznaj się z zawartością stworzonego projektu w pliku `__main__.py`
-- Wydaj polecenie `pulumi up`
-- Na potrzeby tego zadania każdy z uczestników musi dodać swoje środowisko do zdalnego zasobu zarządzania stanem (app.pulumi.com)
-- Stwórz konto na potrzeby realizacji tego zadania (jest darmowe oraz można je stworzyć z wykorzystaniem GitHuba)
-- Dodaj plik `index.html` w obecnym katalogu:
-
-  ```html
-  <html>
-    <body>
-        <h1>Hello, World!</h1>
-    </body>
-  </html>
-  ```
-
-- Zmodyfikuj plik `__main__.py` dodając:
-  
-  ```python
-  bucketObject = s3.BucketObject(
-    'index.html',
-    acl='public-read',
-    content_type='text/html',
-    bucket=bucket.id,
-    source=pulumi.FileAsset('index.html'),
-  )
-  ```
-
-  zmień s3 bucket w następujący sposób:
-  
-  ```python
-  bucket = s3.Bucket('my-bucket',
-    website=s3.BucketWebsiteArgs(index_document="index.html")
-    )
-  ```
-  
-  ostatecznie zmień efekt końcowy tak by poznać adres statycznie stworzonej strony:
-
-  ```python
-  pulumi.export('bucket_endpoint', pulumi.Output.concat('http://', bucket.website_endpoint))
-  ```
-
-- Wydaj polecenie `pulumi preview` by zweryfikować wprowadzone zmiany
-- Wykonaj polecenie `pulumi up` by wdrożyć zmiany
-- Czy strona wynikowa działa?
-- Zniszcz środowisko `pulumi down`
+- Pobierz narzędzie poleceniem `curl -L -o terrascan.tar.gz https://github.com/tenable/terrascan/releases/download/v1.17.1/terrascan_1.17.1_Linux_x86_64.tar.gz`
+- Wypakuj archiwum: `tar -xf terrascan.tar.gz terrascan`
+- Zainstaluj: `install terrascan /usr/local/bin && rm terrascan`
+- Zweryfikuj czy narzędzie działa: `terrascan`
+- Pobierz najnowsze polityki zabezpieczeń z serwera: `terraform init`
+- Wydaj polecenie `terrascan scan --help` (zwróć uwagę na typy możliwej analizy `--iac-type` oraz katalog do skanowania: `--iac-dir`)
+- Jeśli musiałeś do zadania od nowa stworzyć środowisko to pobierz repozytorium laboratorium
+- Przejdź do katalogu `iac-labs-infra/terraform` i wykonaj skanowanie dla kodu typu `terraform`
+- By przeskanować obraz dockera przejdź do katalogu `iac-labs/example-app`
+  (jeśli go nie ma to `cd && cd iac-labs-infra && git submodule init && git submodule update`)
+- Wykonaj analizę poleceniem: `terrascan scan -i docker`
+- Na koniec mamy jeszcze przykład ostatniego typu `ctf` przejdź do katalogu `iac-labs/infra/zad4` z laboratorium 2
+- Wykonaj skanowanie `terrascan scan -i ctf`
+- Na koniec ostatnie ciekawe zastosowanie: `terrascan scan -i k8s -r git -u https://github.com/kubernetes/examples.git`
+  (Uwaga: Możliwe, ze zawiesi nam sie konsola tymczasowo)
 
 Pytania:
 
-- Jakie języki programowania są wspierane przez Pulumi?
-- Gdzie jest trzymany stan tworzonego stosu?
+- Co analizuje Terrascan?
+- Czy to narzędzie gwarantuje bezpieczeństwo wdrożeń?
+- Poszukaj alternatywnych programów i zaproponuj
 
-## Zadanie 6 - tworzenie lokalnego stosu
+## Zadanie 4: Bezserwerowe Hello World
 
-- Przejdź do katalogu pulumi/zad2
-- Na potrzeby tego zadania zarówno jak i `__main__.py` zostały wstępnie przygotowane
-- Zapoznaj się z plikiem i zaaplikuj go (tym razem nie ma obowiązku wydawania polecenia `pulumi new`)
+Zadanie wymaga konsoli AWS (CloudShell) i ma na celu przybliżyć działanie aplikacji bezserwerowych
+
+- Wykonaj polecenie `curl -o- -L https://slss.io/install | bash`
+- Edytuj ścieżkę systemową: `export PATH="$HOME/.serverless/bin:$PATH"`
+- Wykonaj polecenie: `serverless` i wybierz `AWS - Python - Starter`
+- Nie rejestruj się do _Serverless Dashboardu_ (naciśnij `n` i enter)
+- Wykonaj wdrożenie aplikacji (potwierdź, ze chcesz wykonać _deployment_)
+Notka: Aplikacja poprosi nas o klucze AWS nawet pomimo iz pracuje na naszym koncie, więc musimy podać wartość AWS_ACCESS_KEY_ID i AWS_SECRET_ACCESS_KEY
+- Przejdź do katalogu (domyślnie `aws-python-project`)
+- Wydaj polecenie `serverless invoke --function hello`
+
+Oczekiwany rezultat:
+
+```json
+{
+    "statusCode": 200,
+    "body": "{\"message\": \"Go Serverless v3.0! Your function executed successfully!\", \"input\": {}}"
+}
+```
+
+- Na drugiej zakładce otwórz stworzoną funkcje w AWS Lambda
+- Wejdź to `aws-python-project-dev-hello` i przejdź do zakładki `Configuration`
+- Stwórz adres zewnętrzny dla funkcji (_Create function url_)
+- Wybierz opcje bez uwierzytelniania (_NONE_) i naciśnij Save
+- Pojawi się adres (_Function URL_)
+- Przejdź do niego i sprawdź co zwraca
+- Gratulacje twoja bezserwerowa powinna działać poprawnie!
+- Usuń adres URL
+- Ponownie przejdź do zakładki z konsolą i wydaj polecenie `serverless remove`
 
 Pytania:
 
-- Porównaj tworzenie stosu z wykorzystaniem Pulumi do tworzenia stosu Terraform
+- Podaj przykładowe zastosowania dla bezserwerowych funkcji
+- Co jest główną zaletą dla programistów w tym podejściu?
