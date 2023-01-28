@@ -175,6 +175,7 @@ Zauważ, ze protokół ma wartość domyślna ustawiona przez znak `|`
 
 - Teraz z lini komend jeśli jesteś w katalogu `nginx-chart` wydaj polecenie `helm lint .`
 - Teraz wygeneruj plan wdrożenia `helm template .` czyli docelowy wygląd wdrożenia
+- Przejdź do katalogu głównego poleceniem `cd ~`
 - Jeśli wszystko poszło pomyślnie i nie ma błędów (_Error_) możemy wydać polecenie instalowania: `helm install nginx nginx-chart`
 - Zweryfikuj pomyślne wdrożenie poleceniami:
   - `helm list` (zwróć uwagę, iz narzędzie inkrementuje wersje przez klucz `REVISION`)
@@ -223,7 +224,6 @@ Pierwszym narzędziem jest [Terrascan](https://github.com/tenable/terrascan)
 - Wypakuj archiwum: `tar -xf terrascan.tar.gz terrascan`
 - Zainstaluj: `install terrascan /usr/local/bin && rm terrascan`
 - Zweryfikuj czy narzędzie działa: `terrascan`
-- Pobierz najnowsze polityki zabezpieczeń z serwera: `terraform init`
 - Wydaj polecenie `terrascan scan --help` (zwróć uwagę na typy możliwej analizy `--iac-type` oraz katalog do skanowania: `--iac-dir`)
 - Jeśli musiałeś do zadania od nowa stworzyć środowisko to pobierz repozytorium laboratorium
 - Przejdź do katalogu `iac-labs-infra/terraform` i wykonaj skanowanie dla kodu typu `terraform`
