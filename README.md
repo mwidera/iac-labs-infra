@@ -231,7 +231,7 @@ Pierwszym narzędziem jest [Terrascan](https://github.com/tenable/terrascan)
   (jeśli go nie ma to `cd && cd iac-labs-infra && git submodule init && git submodule update`)
 - Wykonaj analizę poleceniem: `terrascan scan -i docker`
 - Na koniec mamy jeszcze przykład ostatniego typu `ctf` przejdź do katalogu `iac-labs/infra/zad4` z laboratorium 2
-- Wykonaj skanowanie `terrascan scan -i ctf`
+- Wykonaj skanowanie `terrascan scan -i cft`
 - Na koniec ostatnie ciekawe zastosowanie: `terrascan scan -i k8s -r git -u https://github.com/kubernetes/examples.git`
   (Uwaga: Możliwe, ze zawiesi nam sie konsola tymczasowo)
 
