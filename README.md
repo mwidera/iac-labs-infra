@@ -41,6 +41,7 @@ Do tego celu należy stworzyć wdrożenie (_deployment_)
 - (Node1): Tymczasowo upublicznij serwer nginx poleceniem: `kubectl port-forward <pod> 80:80 --address=0.0.0.0`
 - (Node1): Przetestuj działanie przechodząc do adresu na porcie 80
 Notka: W przypadku Killercoda naciśnij w prawym górnym rogu znak: ≡ i wybierz `Traffic/Ports`
+- (Node1): Usuń wdrożenie `kubectl delete deployment nginx-deployment`
 
 - Ostatnim elementem jest uruchomienie przykładowej aplikacji z gotowego scenariusza:
 [aplikacja](https://killercoda.com/linkerd/scenario/demo-app)
@@ -202,7 +203,8 @@ env:
   name: prod
 ```
 
-- Wdrożenie tym razem wykonaj przy użyciu aktualizacji (nie instalacji): `helm upgrade nginx --values envs/prod.yaml`
+- Przejdź do katalogu głównego poleceniem `cd ~`
+- Wdrożenie tym razem wykonaj przy użyciu aktualizacji (nie instalacji): `helm upgrade nginx nginx-chart --values envs/prod.yaml`
 - Sprawdź czy aplikacja została wyskalowana do 10 replik
 - Przeciwnie do `upgrade` Helm wspiera również `rollback`, wykonaj polecenie i odnotuj rezultat
 - Usuń wdrożenie (_deployment_) `helm uninstall nginx`
