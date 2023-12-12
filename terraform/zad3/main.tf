@@ -4,7 +4,7 @@ provider "docker" {
 
 resource "null_resource" "git_submodule" {
   provisioner "local-exec" {
-    command = "git submodule update --remote"
+    command     = "git submodule update --remote"
     working_dir = "../.."
   }
 }

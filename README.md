@@ -1,4 +1,4 @@
-# Laboratorium numer 3
+# Laboratorium numer 2
 
 Terraform:
 
@@ -34,26 +34,22 @@ Instalacja zależności:
 Adres repozytorium:
 [https://github.com/mwidera/iac-labs-infra](https://github.com/mwidera/iac-labs-infra)
 
-Instalacja narzędzi na platformie Play-With-Docker:
+Instalacja narzędzi na platformie VDI:
 
-1. Terraform:
-  
-- Wykonaj polecenie: `wget https://releases.hashicorp.com/terraform/1.3.7/terraform_1.3.7_linux_amd64.zip`
-- Wykonaj polecenie: `unzip terraform_1.3.7_linux_amd64.zip`
-- Przesuń plik: `mv terraform /usr/local/bin`
 - Sprawdź działanie aplikacji: `terraform --version`
-
-1. Pulumi
-
 - Wykonaj polecenie: `curl -fsSL https://get.pulumi.com | sh`
 - Ustaw zmienną PATH: `export PATH=$PATH:/root/.pulumi/bin`
 - Zweryfikuj działanie `pulumi version`
 
 ## Zadanie 1: Terraform składnia, idempotentność, modularność
 
+- Instrukcja dla osób **nie** korzystających z AWSa:
+  
+  1. Wydaj polecenie: `pip install terraform-local pulumi-local`
+  2. Ustaw alias: `alias terraform=terraform-local`
+  3. Ustaw alias: `alias pulumi=pulumilocal`
+  
 - Ustaw następujące zmienne systemowe (klucz i sekret pobierz z konta AWSowego)
-
-  *Dla osób bez dostępu do AWSa:* Ustaw takie jak widzisz, lecz nie wydawaj polecenia `terraform apply`!
 
   ```bash
   export AWS_ACCESS_KEY_ID=ALAMAKOTAASDASDX
@@ -77,11 +73,13 @@ Instalacja narzędzi na platformie Play-With-Docker:
 - Zaaplikuj plan poleceniem `terraform apply`
 - Zweryfikuj działanie stworzonej infrastruktury
 - Wydaj raz jeszcze polecenie `terraform plan/apply` by sprawdzić, czy stos jest idempotentny
+- Wydaj polecenie `terraform state list` a następnie `terraform state show <nazwa_zasobu>` by poznać stan zasobów
+- Zanotuj efekty powyzszych poleceń w sprawozdaniu - jako tekst (**nie** zrzut ekranu, albo załącznik)
 - Zniszcz środowisko poleceniem `terraform destroy`
 
 Notka:
 
-- Dla zadania 3-module w linii 47 pliku `main.tf` zmodyfikuj AMI przed zaaplikowaniem w innej chmurze!
+- Dla zadania 3-module w linii 47 pliku `main.tf` zmodyfikuj AMI przed zaaplikowaniem w chmurze AWS!
 
 Pytania:
 
@@ -99,7 +97,7 @@ Pytania:
   }
   ```
 
-## Zadanie 2: Terraform lokalnie
+## Zadanie 2: Terraform z Docker'em
 
 Zadanie jest zbliżone do poprzedniego z tym wyjątkiem, iz do jego realizacji nie jest niezbędny AWS
 
@@ -118,6 +116,8 @@ Zadanie jest zbliżone do poprzedniego z tym wyjątkiem, iz do jego realizacji n
   ```
 
 - Zaaplikuj zmiany poleceniami `terraform plan` i `terraform apply`
+- Wydaj polecenie `terraform state list` a następnie `terraform show` by poznać stan zasobów
+- Zanotuj efekty powyzszych poleceń w sprawozdaniu - jako tekst (**nie** zrzut ekranu, albo załącznik)
 - Zniszcz środowisko poleceniem `terraform destroy`
 
 Pytania:
@@ -168,12 +168,6 @@ Część druga: dodawanie ECR:
 - Wybuduj obraz aplikacji z wykorzystaniem obrazu dockera
 - Stwórz repozytorium obrazów z wykorzystaniem polecenia `terraform apply -target aws_ecr_repository.demo-repository`
 - Wypchnij obraz do repozytorium obrazów
-
-Notka dla osób z PlayWithDocker (ECR View Push Commands):
-
-  1. Skopiuj pierwszą częśc do znaku `|` i wykonaj w Cloud Console
-  2. Ustaw zmienną np foo=<CTRL+SHIFT+V>
-  3. Wydaj resztę polecenia które znajdziesz w ECR zmieniając `--password-stdin` na `--password $foo`
 
 - Zmodyfikuj AppRunner w taki sposób by wykorzystywał on ten obraz dockera do uruchomienia aplikacji
 W tym celu wykorzystaj [dokumentacje](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/apprunner_service)

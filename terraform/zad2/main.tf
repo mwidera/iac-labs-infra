@@ -8,18 +8,18 @@ terraform {
 }
 
 provider "docker" {
-   host = "unix:///var/run/docker.sock"
+  host = "unix:///var/run/docker.sock"
 }
 
 resource "docker_image" "nginx" {
-   name = "nginx:latest"
-   keep_locally = false
+  name         = "nginx:latest"
+  keep_locally = false
 }
 resource "docker_container" "nginx" {
-   image = docker_image.nginx.latest
-   name = "tutorial"
-   ports {
-     internal = 80
-     external = 8080
-    }
+  image = docker_image.nginx.latest
+  name  = "tutorial"
+  ports {
+    internal = 80
+    external = 8080
+  }
 }
