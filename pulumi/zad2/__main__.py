@@ -1,14 +1,4 @@
-import pulumi
 import pulumi_docker as docker
-from pulumi_command import local
-
-# resource "null_resource" "git_submodule" {
-#   provisioner "local-exec" {
-#     command = "git submodule update --remote"
-#     working_dir = "../.."
-#   }
-# }
-# random = local.Command("submodule", "git submodule update --remote", dir="../..")
 
 example_app = docker.RemoteImage("exampleApp",
     name="example-app",

@@ -23,3 +23,7 @@ resource "docker_container" "nginx" {
     external = 8080
   }
 }
+
+output "address" {
+  value = "http://localhost:${docker_container.nginx.ports[0].external}"
+}

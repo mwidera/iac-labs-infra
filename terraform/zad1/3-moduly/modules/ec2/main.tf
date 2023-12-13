@@ -17,10 +17,10 @@ resource "aws_subnet" "webserver" {
 }
 
 resource "aws_instance" "webserver" {
-  ami           = var.ami
-  instance_type = var.instance_type
-  subnet_id     = aws_subnet.webserver.id
-
+  ami                         = var.ami
+  instance_type               = var.instance_type
+  subnet_id                   = aws_subnet.webserver.id
+  associate_public_ip_address = true
   tags = {
     Name = var.name
   }

@@ -65,7 +65,7 @@ Instalacja narzędzi na platformie VDI:
   ```
 
 - Przejdź do katalogu terraform/zad1
-- Kolejne zadania 1-import, 2-zmienne, 3-moduły, 4-funkcje pozwolą poznać składnie
+- Kolejne zadania 1-import, 2-zmienne, 3-moduły pozwolą poznać składnie
 - Przejdź do każdego z wymienionych wyżej katalogów otwierając plik `main.tf` jako funkcje główną programu
 - Wykonaj polecenie inicjujące narzędzie: `terraform init`
 - Zaobserwuj jakie zależności zostały pobrane
@@ -73,6 +73,7 @@ Instalacja narzędzi na platformie VDI:
 - Zaaplikuj plan poleceniem `terraform apply`
 - Zweryfikuj działanie stworzonej infrastruktury
 - Wydaj raz jeszcze polecenie `terraform plan/apply` by sprawdzić, czy stos jest idempotentny
+- (Podczas zadania 3-moduły): Wydaj polecenie `terraform taint <nazwa_zasobu>` by oznaczyć zasób jako element do zastąpienia i ponów krok wcześniejszy
 - Wydaj polecenie `terraform state list` a następnie `terraform state show <nazwa_zasobu>` by poznać stan zasobów
 - Zanotuj efekty powyzszych poleceń w sprawozdaniu - jako tekst (**nie** zrzut ekranu, albo załącznik)
 - Zniszcz środowisko poleceniem `terraform destroy`
@@ -85,6 +86,7 @@ Pytania:
 
 - Wyjaśnij zasadę działania sekcji `variables` oraz `outputs`
 - Jakie ma zastosowanie blok kodu umieszczony poniżej?
+- W jakim celu stosujemy `terraform taint`?
 
   ```terraform
   provider "aws" {
@@ -133,9 +135,13 @@ Uruchomienie aplikacji lokalnie jako element odwzorowania środowiska docelowego
 - Zapoznaj się ze składnią stworzonego stosu
 - Dodaj brakujący zasób (bazę danych) z wykorzystaniem sekcji `resource`
   Składnia kontenera dostępna jest pod tym [adresem](https://registry.terraform.io/providers/kreuzwerker/docker/latest/docs/resources/container)
+  
   Kontener nazwij `db`
+  
   Obraz na którym bazujesz to `resource "docker_image" "postgres"` opisany w pliku `images.tf`
+  
   Podepnij kontener do wspólnej wirtualnej sieci `tfnet`
+  
   Dodaj zmienne środowiskowe niezbędne do poprawnego działania stworzonego kontenera:
 
   ```bash
@@ -149,33 +155,7 @@ Pytania:
 - Porównaj podejście do tworzenia lokalnego środowiska z wykorzystaniem docker-compose oraz terraform
 - Podaj zalety tak realizowanego lokalnego środowiska
 
-## Zadanie 4 - Terraform i AWS
-
-Tworzenie stosu przykładowej aplikacji na chmurze AWS
-Do tego celu jak w poprzednim laboratorium wykorzystamy AppRunner, ECR oraz obraz który będzie dostarczony do repozytorium
-
-- Przejdź do katalogu `terraform/zad4/apprunner`
-- Zainicjuj narzędzie terraform wykorzystując polecenie `terraform init`
-- Zaobserwuj jakie zależności zostały pobrane
-- Wykonaj polecenie tworzące plan aplikowania infrastruktury: `terraform plan`
-- Zaobserwuj ile zasobów planuje stworzyć narzędzie
-- Zaaplikuj plan poleceniem `terraform apply`
-- Zweryfikuj działanie stworzonej infrastruktury klikając w adres podany w wyniku
-  
-Część druga: dodawanie ECR:
-
-- Przejdź do katalogu `../ecr`
-- Wybuduj obraz aplikacji z wykorzystaniem obrazu dockera
-- Stwórz repozytorium obrazów z wykorzystaniem polecenia `terraform apply -target aws_ecr_repository.demo-repository`
-- Wypchnij obraz do repozytorium obrazów
-
-- Zmodyfikuj AppRunner w taki sposób by wykorzystywał on ten obraz dockera do uruchomienia aplikacji
-W tym celu wykorzystaj [dokumentacje](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/apprunner_service)
-- Zaaplikuj zmiany poleceniem `terraform apply`
-- Po uruchomieniu i zweryfikowaniu działania aplikacji zniszcz środowisko `terraform destroy`
-  Czy usunięte zostały wszystkie elementy?
-
-## Zadanie 5 - Pulumi
+## Zadanie 4 - Pulumi
 
 - Przejdź do katalogu pulumi/zad1
 - Wykonaj polecenie `pulumi new aws-python --force`
@@ -197,9 +177,33 @@ W tym celu wykorzystaj [dokumentacje](https://registry.terraform.io/providers/ha
 - Zmodyfikuj plik `__main__.py` dodając:
   
   ```python
+  public_access_block = s3.BucketPublicAccessBlock(
+    'public-access-block', 
+    bucket=bucket.id, 
+    block_public_acls=False
+  )
+  def public_read_policy_for_bucket(bucket_name):
+    return pulumi.Output.json_dumps({
+        "Version": "2012-10-17",
+        "Statement": [{
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": [
+                "s3:GetObject"
+            ],
+            "Resource": [
+                pulumi.Output.format("arn:aws:s3:::{0}/*", bucket_name),
+            ]
+        }]
+    })
+  s3.BucketPolicy('bucket-policy',
+    bucket=bucket.id,
+    policy=public_read_policy_for_bucket(bucket.id), 
+    opts=pulumi.ResourceOptions(depends_on=[public_access_block])
+  )
+
   bucketObject = s3.BucketObject(
     'index.html',
-    acl='public-read',
     content_type='text/html',
     bucket=bucket.id,
     source=pulumi.FileAsset('index.html'),
@@ -211,7 +215,7 @@ W tym celu wykorzystaj [dokumentacje](https://registry.terraform.io/providers/ha
   ```python
   bucket = s3.Bucket('my-bucket',
     website=s3.BucketWebsiteArgs(index_document="index.html")
-    )
+  )
   ```
   
   ostatecznie zmień efekt końcowy tak by poznać adres statycznie stworzonej strony:
@@ -230,7 +234,7 @@ Pytania:
 - Jakie języki programowania są wspierane przez Pulumi?
 - Gdzie jest trzymany stan tworzonego stosu?
 
-## Zadanie 6 - tworzenie lokalnego stosu
+## Zadanie 5 - tworzenie lokalnego stosu
 
 - Przejdź do katalogu pulumi/zad2
 - Na potrzeby tego zadania zarówno jak i `__main__.py` zostały wstępnie przygotowane

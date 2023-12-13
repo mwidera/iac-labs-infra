@@ -9,11 +9,9 @@ terraform {
 
 provider "aws" {
   region = "eu-central-1"
-
 }
 
-resource "aws_instance" "web" {
-  // AMI ID moze byc rozne w roznych regionach
-  ami           = "ami-0669b163befffbdfc"
-  instance_type = "t2.micro"
+provider "aws" {
+  alias  = "east"
+  region = "us-east-1"
 }

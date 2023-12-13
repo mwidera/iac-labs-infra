@@ -1,4 +1,4 @@
-ami = "ami-0a261c0e5f51090b1"
+ami = "ami-0669b163befffbdfc"
 vpc_tags = {
   Name = "some-vpc"
   foo  = "bar"
