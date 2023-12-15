@@ -12,9 +12,11 @@
 Dokumentacja narzędzi użytych do realizacji zadania:
 
 -[Terraform](https://developer.hashicorp.com/terraform/docs)
+
 -[Pulumi](https://www.pulumi.com/docs/get-started/)
 
 -[Dokumentacja zasobów terraform](https://registry.terraform.io/browse/providers)
+
 -[Dokumentacja zasobów pulumi](https://www.pulumi.com/registry/)
 
 Instalacja zależności:
