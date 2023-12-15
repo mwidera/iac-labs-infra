@@ -27,12 +27,35 @@ Instalacja zależności:
 Adres repozytorium:
 [https://github.com/mwidera/iac-labs-infra](https://github.com/mwidera/iac-labs-infra)
 
-Instalacja narzędzi na platformie VDI:
+## Instalacja niezbędnych narzędzi na platformie VDI:
+
+### Terraform
 
 - Sprawdź działanie aplikacji: `terraform --version`
+- Jeśli aplikacja nie jest zainstalowana, wykonaj polecenie: `wget https://releases.hashicorp.com/terraform/1.6.6/terraform_1.6.6_linux_amd64.zip`
+- Rozpakuj pobrany plik: `unzip terraform_1.6.6_linux_amd64.zip`
+- Zweirfikuj działanie aplikacji: `terraform --version`
+
+### Pulumi
+
+- Przenieś plik do katalogu binarnego: `sudo mv terraform /usr/local/bin/`
 - Wykonaj polecenie: `curl -fsSL https://get.pulumi.com | sh`
 - Ustaw zmienną PATH: `export PATH=$PATH:/root/.pulumi/bin`
 - Zweryfikuj działanie `pulumi version`
+
+### Localstack
+
+- Sprawdź czy aplikacja istnieje: `localstack --version`
+- Jeśli aplikacja nie jest zainstalowana, wykonaj polecenie:
+
+```curl -Lo localstack-cli-3.0.2-linux-amd64-onefile.tar.gz https://github.com/localstack/localstack-cli/releases/download/v3.0.2/localstack-cli-3.0.2-linux-amd64-onefile.tar.gz```
+
+- Wypakuj pobrany plik: `sudo tar xvzf localstack-cli-3.0.2-linux-*-onefile.tar.gz -C /usr/local/bin`
+- Zweryfikuj działanie aplikacji: `localstack --version`
+
+### Dodatkowe aplikacje
+
+- `sudo apt install python3-pip vim git`
 
 ## Zadanie 1: Terraform - Składnia, Idempotentność, Modularność
 
@@ -77,7 +100,7 @@ Klucz i sekret pobierz z konta AWSowego
 - Zanotuj efekty powyzszych poleceń w sprawozdaniu - jako tekst (**nie** zrzut ekranu, albo załącznik)
 - Zniszcz środowisko poleceniem `terraform destroy`
 
-### Dodatkowa informacja do zadania 1/3-module
+### Dodatkowa informacja do zad-1/3-module
 
 - W linii 47 pliku `main.tf` zmodyfikuj AMI przed zaaplikowaniem w chmurze AWS
 - Wydaj polecenie `terraform taint <nazwa_zasobu>`, by oznaczyć zasób jako element do zastąpienia i ponów krok wcześniejszy
