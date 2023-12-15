@@ -1,20 +1,11 @@
 # Laboratorium numer 2
 
-Terraform:
+## Terraform i Pulumi
 
-- Składnia
-- Modularyzacja
-- Idempotentność
-
-Tworzenie stosów na platformie AWS
-
-Pulumi:
-
-- Składnia
-- Modularyzacja
-- Idempotentność
-
-Tworzenie stosów na platformie AWS
+- **Składnia**
+- **Modularyzacja**
+- **Idempotentność**
+- Tworzenie stosów na platformie AWS
 
 ## Przed laboratorium
 
@@ -41,20 +32,28 @@ Instalacja narzędzi na platformie VDI:
 - Ustaw zmienną PATH: `export PATH=$PATH:/root/.pulumi/bin`
 - Zweryfikuj działanie `pulumi version`
 
-## Zadanie 1: Terraform składnia, idempotentność, modularność
+## Zadanie 1: Terraform - Składnia, Idempotentność, Modularność
 
-- Instrukcja dla osób **nie** korzystających z AWSa:
-  
-  1. Wydaj polecenie: `pip install terraform-local pulumi-local`
-  2. Ustaw alias: `alias terraform=terraform-local`
-  3. Ustaw alias: `alias pulumi=pulumilocal`
-  
-- Ustaw następujące zmienne systemowe (klucz i sekret pobierz z konta AWSowego)
+### Dla osób nie korzystających z AWS
 
-  ```bash
-  export AWS_ACCESS_KEY_ID=ALAMAKOTAASDASDX
-  export AWS_SECRET_ACCESS_KEY="przykladowykluczo2KyARbABVJavS2b1234"
-  ```
+1. Wydaj następujące polecenia:
+
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate`
+   pip install terraform-local pulumi-local`
+   ```
+
+2. Ustaw aliasy: `alias terraform=tflocal` i `alias pulumi=pulumilocal`
+
+### Ustawienie zmiennych systemowych
+
+Klucz i sekret pobierz z konta AWSowego
+
+- `export AWS_ACCESS_KEY_ID=ALAMAKOTAASDASDX`
+- `export AWS_SECRET_ACCESS_KEY="przykladowykluczo2KyARbABVJavS2b1234"`
+
+### Przygotowanie środowiska
 
 - Wykonaj klonowanie repozytorium do przestrzeni roboczej
 - Wydaj polecenie pobrania git modułu (potrzebne do zadań 3 i 6):
@@ -64,29 +63,28 @@ Instalacja narzędzi na platformie VDI:
   git submodule update
   ```
 
+### Praca z Terraform
+
 - Przejdź do katalogu terraform/zad1
-- Kolejne zadania 1-import, 2-zmienne, 3-moduły pozwolą poznać składnie
-- Przejdź do każdego z wymienionych wyżej katalogów otwierając plik `main.tf` jako funkcje główną programu
-- Wykonaj polecenie inicjujące narzędzie: `terraform init`
-- Zaobserwuj jakie zależności zostały pobrane
-- Wykonaj polecenie tworzące plan aplikowania infrastruktury: `terraform plan`
-- Zaaplikuj plan poleceniem `terraform apply`
-- Zweryfikuj działanie stworzonej infrastruktury
-- Wydaj raz jeszcze polecenie `terraform plan/apply` by sprawdzić, czy stos jest idempotentny
-- (Podczas zadania 3-moduły): Wydaj polecenie `terraform taint <nazwa_zasobu>` by oznaczyć zasób jako element do zastąpienia i ponów krok wcześniejszy
+- Otwórz plik `main.tf` w każdym z katalogów: 1-import, 2-zmienne, 3-moduly
+- Wykonaj `terraform init` i obserwuj pobrane zależności.
+- Użyj `terraform plan` i `terraform apply` do zaaplikowania infrastruktury.
+- Zweryfikuj działanie infrastruktury
+- Sprawdź idempotentność stosu poprzez ponowne wydanie polecenia `terraform apply`
 - Wydaj polecenie `terraform state list` a następnie `terraform state show <nazwa_zasobu>` by poznać stan zasobów
 - Zanotuj efekty powyzszych poleceń w sprawozdaniu - jako tekst (**nie** zrzut ekranu, albo załącznik)
 - Zniszcz środowisko poleceniem `terraform destroy`
 
-Notka:
+### Dodatkowa informacja do zadania 1/3-module
 
-- Dla zadania 3-module w linii 47 pliku `main.tf` zmodyfikuj AMI przed zaaplikowaniem w chmurze AWS!
+- W linii 47 pliku `main.tf` zmodyfikuj AMI przed zaaplikowaniem w chmurze AWS
+- Wydaj polecenie `terraform taint <nazwa_zasobu>`, by oznaczyć zasób jako element do zastąpienia i ponów krok wcześniejszy
 
-Pytania:
+### Pytania
 
-- Wyjaśnij zasadę działania sekcji `variables` oraz `outputs`
-- Jakie ma zastosowanie blok kodu umieszczony poniżej?
-- W jakim celu stosujemy `terraform taint`?
+- Wyjaśnij działanie sekcji `variables` i `outputs`.
+- Opisz zastosowanie `terraform taint`.
+- Wyjaśnij działanie części kodu zamieszczonego poniżej:
 
   ```terraform
   provider "aws" {
@@ -101,14 +99,15 @@ Pytania:
 
 ## Zadanie 2: Terraform z Docker'em
 
-Zadanie jest zbliżone do poprzedniego z tym wyjątkiem, iz do jego realizacji nie jest niezbędny AWS
+### Inicjowanie i Tworzenie Infrastruktury
 
-- Wykonaj polecenie inicjujące narzędzie: `terraform init`
-- Zaobserwuj jakie zależności zostały pobrane
-- Wykonaj polecenie tworzące plan aplikowania infrastruktury: `terraform plan`
-- Zaaplikuj plan poleceniem `terraform apply`
-- Zweryfikuj działanie stworzonej infrastruktury
-- Zmodyfikuj infrastrukturę zmieniając oznaczenie obrazu wykorzystując zasób [docker_tag](https://registry.terraform.io/providers/kreuzwerker/docker/latest/docs/resources/tag)
+- Wykonaj `terraform init`.
+- Użyj `terraform plan` i `terraform apply`
+  
+### Modyfikacja Infrastruktury
+
+- Zmodyfikuj infrastrukturę, korzystając z zasobu [docker_tag](https://registry.terraform.io/providers/kreuzwerker/docker/latest/docs/resources/tag).
+
   Przykładowy zasób jaki należy dodać do :
 
   ```terraform
@@ -117,30 +116,34 @@ Zadanie jest zbliżone do poprzedniego z tym wyjątkiem, iz do jego realizacji n
   }
   ```
 
-- Zaaplikuj zmiany poleceniami `terraform plan` i `terraform apply`
 - Wydaj polecenie `terraform state list` a następnie `terraform show` by poznać stan zasobów
 - Zanotuj efekty powyzszych poleceń w sprawozdaniu - jako tekst (**nie** zrzut ekranu, albo załącznik)
 - Zniszcz środowisko poleceniem `terraform destroy`
 
-Pytania:
+### Pytania do zadania 2
 
-- Wyjaśnij jest plik `terraform.tfstate`
-- Wyjaśnij w jaki sposób współdzielenie `terraform.tfstate` zagwarantuje idempotentne podejście tworzenia infrastruktury
+- Wyjaśnij rolę pliku `terraform.tfstate`
 
 ## Zadanie 3: Uruchomienie example-app
 
 Uruchomienie aplikacji lokalnie jako element odwzorowania środowiska docelowego
 
+### Konfiguracja i Uruchomienie
+
 - Przejdź do katalogu terraform/zad3
-- Zapoznaj się ze składnią stworzonego stosu
+- Dodaj brakujący obraz w pliku `images.tf` z wykorzystaniem sekcji `resource`
+  Składnia obrazu dostępna jest pod tym [adresem](https://registry.terraform.io/providers/kreuzwerker/docker/latest/docs/resources/image)
+  
+  Obraz nazwij `postgres`
+
 - Dodaj brakujący zasób (bazę danych) z wykorzystaniem sekcji `resource`
   Składnia kontenera dostępna jest pod tym [adresem](https://registry.terraform.io/providers/kreuzwerker/docker/latest/docs/resources/container)
   
   Kontener nazwij `db`
   
-  Obraz na którym bazujesz to `resource "docker_image" "postgres"` opisany w pliku `images.tf`
-  
   Podepnij kontener do wspólnej wirtualnej sieci `tfnet`
+
+  Stworzony wcześniej obraz `postgres` wykorzystaj jako obraz bazowy dla kontenera `db`
   
   Dodaj zmienne środowiskowe niezbędne do poprawnego działania stworzonego kontenera:
 
@@ -150,16 +153,31 @@ Uruchomienie aplikacji lokalnie jako element odwzorowania środowiska docelowego
     "POSTGRES_PASSWORD=app_pass"
   ```
 
-Pytania:
+- Wydaj polecenie `terraform state list` a następnie `terraform show` by poznać stan zasobów
+- Zanotuj efekty powyzszych poleceń w sprawozdaniu - jako tekst (**nie** zrzut ekranu, albo załącznik)
+- Zniszcz środowisko poleceniem `terraform destroy`
 
-- Porównaj podejście do tworzenia lokalnego środowiska z wykorzystaniem docker-compose oraz terraform
-- Podaj zalety tak realizowanego lokalnego środowiska
+### Pytania do zadania 3
+
+- Porównaj docker-compose i terraform w kontekście tworzenia lokalnego środowiska
+- Jak wyglądałby plik docker-compose dla tego środowiska?
 
 ## Zadanie 4 - Pulumi
 
+### Konfiguracja Pulumi
+
 - Przejdź do katalogu pulumi/zad1
 - Wykonaj polecenie `pulumi new aws-python --force`
-- Podaj parametry wykonania np. `project name: zad1`, `project description: Empty`, `stack name: nr_indeksu`
+- Podaj parametry wykonania np.
+  
+  ```text
+  project name: zad1`, 
+  project description: Empty`, 
+  stack name: nr_indeksu
+  ```
+
+### Modyfikacja i Wdrożenie
+
 - Zapoznaj się z zawartością stworzonego projektu w pliku `__main__.py`
 - Wydaj polecenie `pulumi up`
 - Na potrzeby tego zadania każdy z uczestników musi dodać swoje środowisko do zdalnego zasobu zarządzania stanem (app.pulumi.com)
