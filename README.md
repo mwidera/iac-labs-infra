@@ -70,8 +70,6 @@ Adres repozytorium:
    pip install terraform-local pulumi-local
    ```
 
-2. Ustaw aliasy: `alias terraform=tflocal` i `alias pulumi=pulumilocal`
-
 ### Ustawienie zmiennych systemowych
 
 Klucz i sekret pobierz z konta AWSowego
@@ -91,9 +89,9 @@ Klucz i sekret pobierz z konta AWSowego
 
 ### Praca z Terraform
 
-- Przejdź do katalogu terraform/zad1
+- Przejdź do katalogu terraform/zad1 i następnie do podkatalogów niżej
 - Otwórz plik `main.tf` w każdym z katalogów: 1-import, 2-zmienne, 3-moduly
-- Wykonaj `terraform init` i obserwuj pobrane zależności.
+- Wykonaj `terraform init` (albo: `tflocal`) i obserwuj pobrane zależności.
 - Użyj `terraform plan` i `terraform apply` do zaaplikowania infrastruktury.
 - Zweryfikuj działanie infrastruktury
 - Sprawdź idempotentność stosu poprzez ponowne wydanie polecenia `terraform apply`
