@@ -66,8 +66,8 @@ Adres repozytorium:
 
    ```bash
    python3 -m venv venv
-   source venv/bin/activate`
-   pip install terraform-local pulumi-local`
+   source venv/bin/activate
+   pip install terraform-local pulumi-local
    ```
 
 2. Ustaw aliasy: `alias terraform=tflocal` i `alias pulumi=pulumilocal`
