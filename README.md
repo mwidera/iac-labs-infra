@@ -127,7 +127,7 @@ Klucz i sekret pobierz z konta AWSowego
 
 - Wykonaj `terraform init`.
 - Użyj `terraform plan` i `terraform apply`
-- Dla maszyn z puli VMWare uzyj polecenia `newgrp docker`
+- Dla maszyn z puli VMWare uzyj polecenia ` sudo groupadd docker && sudo usermod -aG docker $USER && newgrp docker`
   
 ### Modyfikacja Infrastruktury
 
