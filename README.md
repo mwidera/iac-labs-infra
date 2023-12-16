@@ -34,11 +34,12 @@ Adres repozytorium:
 - Sprawdź działanie aplikacji: `terraform --version`
 - Jeśli aplikacja nie jest zainstalowana, wykonaj polecenie: `wget https://releases.hashicorp.com/terraform/1.6.6/terraform_1.6.6_linux_amd64.zip`
 - Rozpakuj pobrany plik: `unzip terraform_1.6.6_linux_amd64.zip`
+- Przenieś plik do katalogu binarnego: `sudo mv terraform /usr/local/bin/`
 - Zweirfikuj działanie aplikacji: `terraform --version`
 
 ### Pulumi
 
-- Przenieś plik do katalogu binarnego: `sudo mv terraform /usr/local/bin/`
+- Zweryfikuj działanie `pulumi version`
 - Wykonaj polecenie: `curl -fsSL https://get.pulumi.com | sh`
 - Ustaw zmienną PATH: `export PATH=$PATH:/root/.pulumi/bin`
 - Zweryfikuj działanie `pulumi version`
