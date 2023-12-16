@@ -196,8 +196,8 @@ Uruchomienie aplikacji lokalnie jako element odwzorowania środowiska docelowego
 - Podaj parametry wykonania np.
   
   ```text
-  project name: zad1`, 
-  project description: Empty`, 
+  project name: zad1, 
+  project description: Empty, 
   stack name: nr_indeksu
   ```
 
