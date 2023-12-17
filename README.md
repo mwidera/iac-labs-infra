@@ -45,7 +45,7 @@ Adres repozytorium:
 
 - Zweryfikuj działanie `pulumi version`
 - Wykonaj polecenie: `curl -fsSL https://get.pulumi.com | sh`
-- Ustaw zmienną PATH: `export PATH=$PATH:/root/.pulumi/bin`
+- Ustaw zmienną PATH: `export PATH=$PATH:/home/student/.pulumi/bin`
 - Zweryfikuj działanie `pulumi version`
 
 ### Localstack
