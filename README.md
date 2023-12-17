@@ -57,6 +57,7 @@ Adres repozytorium:
 
 - Wypakuj pobrany plik: `sudo tar xvzf localstack-cli-3.0.2-linux-*-onefile.tar.gz -C /usr/local/bin`
 - Zweryfikuj działanie aplikacji: `localstack --version`
+- Uruchom `localstack start`
 
 ### Dodatkowe aplikacje
 
