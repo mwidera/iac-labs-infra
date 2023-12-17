@@ -29,6 +29,10 @@ Adres repozytorium:
 
 ## Instalacja niezbędnych narzędzi na platformie VDI:
 
+### Docker i uprawnienia
+
+- Wydaj polecenie `sudo groupadd docker; sudo usermod -aG docker $USER; newgrp docker`
+
 ### Terraform
 
 - Sprawdź działanie aplikacji: `terraform --version`
