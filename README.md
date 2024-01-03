@@ -1,14 +1,14 @@
-# Laboratorium numer 4
+# Laboratorium numer 3
 
 Pierwsze dwa zadania będą skoncentrowane na kubernetes
-Kolejne zadanie jest przykładem analizy pod kontem bezpieczeństwa
-Ostatnie zadanie wymaga platformy AWS, więc niezbędne będzie ustawienie kluczy dostępu do naszego konta w celu wdrożenia funkcji (elementu bezserwerowego)
+Kolejne zadanie wymaga platformy AWS, więc niezbędne będzie ustawienie kluczy dostępu do naszego konta w celu wdrożenia funkcji (elementu bezserwerowego)
+Ostatnie zadanie jest przykładem analizy pod kontem bezpieczeństwa
 
 ## Przed laboratorium
 
 Ćwiczenia 1-3 można wykonywać na platformach:
 
-- [Killercoda](https://killercoda.com/kubernetes/scenario): Dostęp jest tylko do jednej maszyny wirtualnych i tylko na 60 minut
+- [Killercoda](https://killercoda.com/playgrounds/scenario/kubernetes): Dostęp jest tylko do jednej maszyny wirtualnych i tylko na 60 minut
 - [Play-With-Kubernetes](https://labs.play-with-k8s.com/): Można tworzyć więcej maszyn wirtualnych i na 3 godziny, lecz występują ograniczenia patrz komentarz niżej
 
 Uwaga: Niestety przez to, iz Play With Kubernetes ma ograniczone zasoby czasami będzie należało stworzyć ponownie maszynę od zera z uwagi na nietypowe błędy w tworzeniu maszyn wirtualnych
@@ -56,10 +56,10 @@ Pytania:
 Kroki obowiązkowe tylko dla portalu: PWK (_Play With Kubernetes_)
 
 - Pobierz na maszynę następujące archiwum:
-  `curl -fsSL -o helm.tar.gz https://get.helm.sh/helm-v3.11.0-linux-amd64.tar.gz`
+  `curl -fsSL -o helm.tar.gz https://get.helm.sh/helm-canary-linux-amd64.tar.gz`
 - Rozpakuj archiwum: `tar -zxvf helm.tar.gz`
 - Przenieś aplikacje: `mv linux-amd64/helm /usr/local/bin/helm`
-- Sprawdź działanie poleceniem: `helm version --short` i spodziewany efekt: `v3.11.0+g472c573`
+- Sprawdź działanie poleceniem: `helm version --short` i spodziewany efekt: `v3.13+unreleased+g276121c`
 
 Druga cześć zadania jest oparta o poprzednie wdrożenie serwera nginx
 
@@ -179,10 +179,11 @@ Zauważ, ze protokół ma wartość domyślna ustawiona przez znak `|`
 - Jeśli wszystko poszło pomyślnie i nie ma błędów (_Error_) możemy wydać polecenie instalowania: `helm install nginx nginx-chart`
 - Zweryfikuj pomyślne wdrożenie poleceniami:
   - `helm list` (zwróć uwagę, iz narzędzie inkrementuje wersje przez klucz `REVISION`)
-  - `kubectl get deployment`
-  - `kubectl get configmap`
-  - `kubectl get services`
-  - `kubectl get pods`
+  - Wydaj następujące polecenia, by zanotowac efekt w sprawozdaniu:
+    - `kubectl get deployment`
+    - `kubectl get configmap`
+    - `kubectl get services`
+    - `kubectl get pods`
 
 Jeśli wszystko działa prawidłowo możesz zaktualizować dane wdrożenie przy użyciu pliku (stwórz go np. w katalogu głównym `envs/prod.yaml`)
 
@@ -214,36 +215,15 @@ Pytania:
 
 - Czym jest Helm dla Kubernetes?
 
-## Zadanie 3: Analiza bezpieczeństwa
+## Zadanie 3: Bezserwerowe Hello World
 
-Ostatnim zadaniem będzie zapoznanie się z narzędziami pozwalającymi na wykrywanie potencjalnych problemów w naszym kodzie
+Zadanie wymaga konsoli AWS (CloudShell) albo uruchomionego LocalStack'a
+Ma na celu przybliżyć działanie aplikacji bezserwerowych
 
-Pierwszym narzędziem jest [Terrascan](https://github.com/tenable/terrascan)
-
-- Pobierz narzędzie poleceniem `curl -L -o terrascan.tar.gz https://github.com/tenable/terrascan/releases/download/v1.17.1/terrascan_1.17.1_Linux_x86_64.tar.gz`
-- Wypakuj archiwum: `tar -xf terrascan.tar.gz terrascan`
-- Zainstaluj: `install terrascan /usr/local/bin && rm terrascan`
-- Zweryfikuj czy narzędzie działa: `terrascan`
-- Wydaj polecenie `terrascan scan --help` (zwróć uwagę na typy możliwej analizy `--iac-type` oraz katalog do skanowania: `--iac-dir`)
-- Jeśli musiałeś do zadania od nowa stworzyć środowisko to pobierz repozytorium laboratorium
-- Przejdź do katalogu `iac-labs-infra/terraform` i wykonaj skanowanie dla kodu typu `terraform`
-- By przeskanować obraz dockera przejdź do katalogu `iac-labs/example-app`
-  (jeśli go nie ma to `cd && cd iac-labs-infra && git submodule init && git submodule update`)
-- Wykonaj analizę poleceniem: `terrascan scan -i docker`
-- Na koniec mamy jeszcze przykład ostatniego typu `ctf` przejdź do katalogu `iac-labs/infra/lab2/zad4` z laboratorium 2
-- Wykonaj skanowanie `terrascan scan -i cft`
-- Na koniec ostatnie ciekawe zastosowanie: `terrascan scan -i k8s -r git -u https://github.com/kubernetes/examples.git`
-  (Uwaga: Możliwe, ze zawiesi nam sie konsola tymczasowo)
-
-Pytania:
-
-- Co analizuje Terrascan?
-- Czy to narzędzie gwarantuje bezpieczeństwo wdrożeń?
-- Poszukaj alternatywnych programów i zaproponuj
-
-## Zadanie 4: Bezserwerowe Hello World
-
-Zadanie wymaga konsoli AWS (CloudShell) i ma na celu przybliżyć działanie aplikacji bezserwerowych
+- Dla osób niekorzystających z AWSa:
+  - Zrealizuj punkty z laboratorium 2:
+  - [Instalacja](https://github.com/mwidera/iac-labs-infra?tab=readme-ov-file#localstack)
+  - Uruchom kolejny terminal (Tab) w sesji, by realizowac dalsze polecenia
 
 - Wykonaj polecenie `curl -o- -L https://slss.io/install | bash`
 - Edytuj ścieżkę systemową: `export PATH="$HOME/.serverless/bin:$PATH"`
@@ -277,3 +257,30 @@ Pytania:
 
 - Podaj przykładowe zastosowania dla bezserwerowych funkcji
 - Co jest główną zaletą dla programistów w tym podejściu?
+
+## Zadanie 4: Analiza bezpieczeństwa
+
+Ostatnim zadaniem będzie zapoznanie się z narzędziami pozwalającymi na wykrywanie potencjalnych problemów w naszym kodzie
+
+Pierwszym narzędziem jest [Terrascan](https://github.com/tenable/terrascan)
+
+- Pobierz narzędzie poleceniem `curl -L -o terrascan.tar.gz https://github.com/tenable/terrascan/releases/download/v1.18.11/terrascan_1.18.11_Linux_x86_64.tar.gz`
+- Wypakuj archiwum: `tar -xf terrascan.tar.gz terrascan`
+- Zainstaluj: `install terrascan /usr/local/bin && rm terrascan`
+- Zweryfikuj czy narzędzie działa: `terrascan`
+- Wydaj polecenie `terrascan scan --help` (zwróć uwagę na typy możliwej analizy `--iac-type` oraz katalog do skanowania: `--iac-dir`)
+- Jeśli musiałeś do zadania od nowa stworzyć środowisko to pobierz repozytorium laboratorium
+- Przejdź do katalogu `iac-labs-infra/terraform` i wykonaj skanowanie dla kodu typu `terraform`
+- By przeskanować obraz dockera przejdź do katalogu `iac-labs/example-app`
+  (jeśli go nie ma to `cd && cd iac-labs-infra && git submodule init && git submodule update`)
+- Wykonaj analizę poleceniem: `terrascan scan -i docker`
+- Na koniec mamy jeszcze przykład ostatniego typu `ctf` przejdź do katalogu `iac-labs/infra/lab2/zad4`
+- Wykonaj skanowanie `terrascan scan -i cft`
+- Na koniec ostatnie ciekawe zastosowanie: `terrascan scan -i k8s -r git -u https://github.com/kubernetes/examples.git`
+  (Uwaga: Możliwe, ze zawiesi nam sie konsola tymczasowo)
+
+Pytania:
+
+- Co analizuje Terrascan?
+- Czy to narzędzie gwarantuje bezpieczeństwo wdrożeń?
+- Poszukaj alternatywnych programów i zaproponuj
