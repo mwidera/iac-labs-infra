@@ -243,6 +243,7 @@ Oczekiwany rezultat:
 }
 ```
 
+Dla osób korzystających z AWSa dodatkowe punkty:
 - Na drugiej zakładce otwórz stworzoną funkcje w AWS Lambda
 - Wejdź to `aws-python-project-dev-hello` i przejdź do zakładki `Configuration`
 - Stwórz adres zewnętrzny dla funkcji (_Create function url_)
@@ -251,6 +252,8 @@ Oczekiwany rezultat:
 - Przejdź do niego i sprawdź co zwraca
 - Gratulacje twoja bezserwerowa powinna działać poprawnie!
 - Usuń adres URL
+
+Ostatni punkt zadania:
 - Ponownie przejdź do zakładki z konsolą i wydaj polecenie `serverless remove`
 
 Pytania:
