@@ -232,7 +232,7 @@ Ma na celu przybliżyć działanie aplikacji bezserwerowych
 - Wykonaj wdrożenie aplikacji (potwierdź, ze chcesz wykonać _deployment_)
 Notka: Aplikacja poprosi nas o klucze AWS nawet pomimo iz pracuje na naszym koncie, więc musimy podać wartość AWS_ACCESS_KEY_ID i AWS_SECRET_ACCESS_KEY
 - Przejdź do katalogu (domyślnie `aws-python-project`)
-- Wydaj polecenie `serverless invoke --function hello`
+- Wydaj polecenie `serverless invoke --function hello` (dla osób z localstackiem: `serverless invoke local --function hello`)
 
 Oczekiwany rezultat:
 
