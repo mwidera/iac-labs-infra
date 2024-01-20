@@ -252,8 +252,6 @@ Dla osób korzystających z AWSa dodatkowe punkty:
 - Przejdź do niego i sprawdź co zwraca
 - Gratulacje twoja bezserwerowa powinna działać poprawnie!
 - Usuń adres URL
-
-Ostatni punkt zadania:
 - Ponownie przejdź do zakładki z konsolą i wydaj polecenie `serverless remove`
 
 Pytania:
