@@ -45,7 +45,7 @@ Notka: W przypadku Killercoda naciśnij w prawym górnym rogu znak: ≡ i wybier
 
 - Ostatnim elementem jest uruchomienie przykładowej aplikacji z gotowego scenariusza:
 [aplikacja](https://killercoda.com/linkerd/scenario/demo-app)
-(Proszę przeklinać i otrzymamy gotową aplikacje do glosowania na emoji)
+(Proszę przeklikać i otrzymamy gotową aplikacje do glosowania na emoji)
 
 Pytania:
 
