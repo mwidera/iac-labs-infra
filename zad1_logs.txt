@@ -1,0 +1,794 @@
+tudent@student-ubuntu:~$ sudo groupadd docker; sudo usermod -aG docker $USER; newgrp docker
+[sudo] hasło użytkownika student: 
+groupadd: group 'docker' already exists
+student@student-ubuntu:~$ sudo usermod -aG docker $USER
+student@student-ubuntu:~$ newgrp docker
+student@student-ubuntu:~$ curl -Lo localstack-cli-3.0.2-linux-amd64-onefile.tar.gz https://github.com/localstack/localstack-cli/releases/download/v3.0.2/localstack-cli-3.0.2-linux-amd64-onefile.tar.gz
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- -- 36 35.4M   36 12.9M    0     0  9473k      0  0:00:03  0:00:01  0100 35.4M  100 35.4M    0     0  15.8M      0  0:00:02  0:00:02 --:--:-- 19.5M
+student@student-ubuntu:~$ sudo tar xvzf localstack-cli-3.0.2-linux-*-onefile.tar.gz -C /usr/local/bin
+localstack
+student@student-ubuntu:~$ localstack start -d
+
+     __                     _______ __             __
+    / /   ____  _________ _/ / ___// /_____ ______/ /__
+   / /   / __ \/ ___/ __ `/ /\__ \/ __/ __ `/ ___/ //_/
+  / /___/ /_/ / /__/ /_/ / /___/ / /_/ /_/ / /__/ ,<
+ /_____/\____/\___/\__,_/_//____/\__/\__,_/\___/_/|_|
+
+ 💻 LocalStack CLI 3.0.2
+
+[12:00:05] starting LocalStack in Docker mode 🐳 localstack.py:495
+           preparing environment                 bootstrap.py:1241
+           configuring container                 bootstrap.py:1249
+2024-01-21T12:00:57.866  WARN --- [  MainThread] l.utils.docker_utils       : Unexpected error when attempting to determine container port status: localstack/localstack
+[12:00:57] starting container                                                                            bootstrap.py:1259
+[12:01:00] detaching                                                                                     bootstrap.py:1263
+student@student-ubuntu:~$ docker ps
+CONTAINER ID   IMAGE                   COMMAND                  CREATED         STATUS                            PORTS                                                                    NAMES
+e64e477a97a3   localstack/localstack   "docker-entrypoint.sh"   7 seconds ago   Up 5 seconds (health: starting)   127.0.0.1:4510-4560->4510-4560/tcp, 127.0.0.1:4566->4566/tcp, 5678/tcp   localstack-main
+student@student-ubuntu:~$ curl -s https://127.0.0.1:4566/health | json_pp
+malformed JSON string, neither array, object, number, string or atom, at character offset 0 (before "(end of string)") at /usr/bin/json_pp line 59.
+student@student-ubuntu:~$ curl -s https://127.0.0.1:4566/health
+student@student-ubuntu:~$ curl https://127.0.0.1:4566/health
+curl: (60) SSL: no alternative certificate subject name matches target host name '127.0.0.1'
+More details here: https://curl.se/docs/sslcerts.html
+
+curl failed to verify the legitimacy of the server and therefore could not
+establish a secure connection to it. To learn more about this situation and
+how to fix it, please visit the web page mentioned above.
+student@student-ubuntu:~$ curl http://127.0.0.1:4566/health
+<?xml version='1.0' encoding='utf-8'?>
+<Error><Code>NoSuchBucket</Code><Message>The specified bucket does not exist</Message><RequestId>a641b68a-d566-42b7-9e98-f3a282045f4e</RequestId><BucketName>health</BucketName></Error>student@student-ubuntu:~$ wget https://releases.hashicorp.com/terraform/1.6.6/terraforwget https://releases.hashicorp.com/terraform/1.6.6/terraform_1.6.6_linux_amd64.zip
+--2024-01-21 12:08:49--  https://releases.hashicorp.com/terraform/1.6.6/terraform_1.6.6_linux_amd64.zip
+Translacja releases.hashicorp.com (releases.hashicorp.com)... 52.222.139.32, 52.222.139.69, 52.222.139.64, ...
+Łączenie się z releases.hashicorp.com (releases.hashicorp.com)|52.222.139.32|:443... połączono.
+Żądanie HTTP wysłano, oczekiwanie na odpowiedź... 200 OK
+Długość: 24976120 (24M) [application/zip]
+Zapis do: ‘terraform_1.6.6_linux_amd64.zip’
+
+terraform_1.6.6_linux_amd64.zi 100%[==================================================>]  23,82M  35,5MB/s    w 0,7s     
+
+2024-01-21 12:08:50 (35,5 MB/s) - zapisano ‘terraform_1.6.6_linux_amd64.zip’ [24976120/24976120]
+
+student@student-ubuntu:~$ unzip terraform_1.6.6_linux_amd64.zip
+Archive:  terraform_1.6.6_linux_amd64.zip
+  inflating: terraform               
+student@student-ubuntu:~$ sudo mv terraform /usr/local/bin/
+student@student-ubuntu:~$ sudo apt install python3-pip vim git
+Czytanie list pakietów... Gotowe
+Budowanie drzewa zależności... Gotowe
+Odczyt informacji o stanie... Gotowe   
+python3-pip is already the newest version (23.2+dfsg-1ubuntu0.1).
+git is already the newest version (1:2.40.1-1ubuntu1).
+git zaznaczony jako zainstalowany ręcznie.
+The following additional packages will be installed:
+  libsodium23 vim-common vim-runtime vim-tiny xxd
+Sugerowane pakiety:
+  ctags vim-doc vim-scripts indent
+Zostaną zainstalowane następujące NOWE pakiety:
+  libsodium23 vim vim-runtime
+Następujące pakiety zostaną zaktualizowane:
+  vim-common vim-tiny xxd
+3 aktualizowanych, 3 nowo instalowanych, 0 usuwanych i 104 nieaktualizowanych.
+Konieczne pobranie 9 136 kB/10,3 MB archiwów.
+Po tej operacji zostanie dodatkowo użyte 40,8 MB miejsca na dysku.
+Kontynuować? [T/n] t
+Pobieranie:1 http://pl.archive.ubuntu.com/ubuntu mantic/main amd64 libsodium23 amd64 1.0.18-1build2 [164 kB]
+Pobieranie:2 http://pl.archive.ubuntu.com/ubuntu mantic-updates/main amd64 vim-runtime all 2:9.0.1672-1ubuntu2.2 [7 132 kB]
+Pobieranie:3 http://pl.archive.ubuntu.com/ubuntu mantic-updates/main amd64 vim amd64 2:9.0.1672-1ubuntu2.2 [1 841 kB]
+Pobrano 9 136 kB w 0s (25,9 MB/s)  
+(Odczytywanie bazy danych ... 150582 pliki i katalogi obecnie zainstalowane.)
+Przygotowywanie do rozpakowania pakietu .../0-xxd_2%3a9.0.1672-1ubuntu2.2_amd64.deb ...
+Rozpakowywanie pakietu xxd (2:9.0.1672-1ubuntu2.2) nad (2:9.0.1672-1ubuntu2.1) ...
+Przygotowywanie do rozpakowania pakietu .../1-vim-tiny_2%3a9.0.1672-1ubuntu2.2_amd64.deb ...
+Rozpakowywanie pakietu vim-tiny (2:9.0.1672-1ubuntu2.2) nad (2:9.0.1672-1ubuntu2.1) ...
+Przygotowywanie do rozpakowania pakietu .../2-vim-common_2%3a9.0.1672-1ubuntu2.2_all.deb ...
+Rozpakowywanie pakietu vim-common (2:9.0.1672-1ubuntu2.2) nad (2:9.0.1672-1ubuntu2.1) ...
+Wybieranie wcześniej niewybranego pakietu libsodium23:amd64.
+Przygotowywanie do rozpakowania pakietu .../3-libsodium23_1.0.18-1build2_amd64.deb ...
+Rozpakowywanie pakietu libsodium23:amd64 (1.0.18-1build2) ...
+Wybieranie wcześniej niewybranego pakietu vim-runtime.
+Przygotowywanie do rozpakowania pakietu .../4-vim-runtime_2%3a9.0.1672-1ubuntu2.2_all.deb ...
+Dodawanie "ominięcie /usr/share/vim/vim90/doc/help.txt do /usr/share/vim/vim90/doc/help.txt.vim-tiny przez vim-runtime"
+Dodawanie "ominięcie /usr/share/vim/vim90/doc/tags do /usr/share/vim/vim90/doc/tags.vim-tiny przez vim-runtime"
+Rozpakowywanie pakietu vim-runtime (2:9.0.1672-1ubuntu2.2) ...
+Wybieranie wcześniej niewybranego pakietu vim.
+Przygotowywanie do rozpakowania pakietu .../5-vim_2%3a9.0.1672-1ubuntu2.2_amd64.deb ...
+Rozpakowywanie pakietu vim (2:9.0.1672-1ubuntu2.2) ...
+Konfigurowanie pakietu libsodium23:amd64 (1.0.18-1build2) ...
+Konfigurowanie pakietu xxd (2:9.0.1672-1ubuntu2.2) ...
+Konfigurowanie pakietu vim-common (2:9.0.1672-1ubuntu2.2) ...
+Konfigurowanie pakietu vim-runtime (2:9.0.1672-1ubuntu2.2) ...
+Konfigurowanie pakietu vim (2:9.0.1672-1ubuntu2.2) ...
+update-alternatives: użycie /usr/bin/vim.basic jako dostarczającego /usr/bin/ex (ex) w trybie automatycznym
+update-alternatives: użycie /usr/bin/vim.basic jako dostarczającego /usr/bin/rview (rview) w trybie automatycznym
+update-alternatives: użycie /usr/bin/vim.basic jako dostarczającego /usr/bin/rvim (rvim) w trybie automatycznym
+update-alternatives: użycie /usr/bin/vim.basic jako dostarczającego /usr/bin/vi (vi) w trybie automatycznym
+update-alternatives: użycie /usr/bin/vim.basic jako dostarczającego /usr/bin/view (view) w trybie automatycznym
+update-alternatives: użycie /usr/bin/vim.basic jako dostarczającego /usr/bin/vim (vim) w trybie automatycznym
+update-alternatives: użycie /usr/bin/vim.basic jako dostarczającego /usr/bin/vimdiff (vimdiff) w trybie automatycznym
+Konfigurowanie pakietu vim-tiny (2:9.0.1672-1ubuntu2.2) ...
+Przetwarzanie wyzwalaczy pakietu mailcap (3.70+nmu1ubuntu1)...
+Przetwarzanie wyzwalaczy pakietu desktop-file-utils (0.26-1ubuntu5)...
+Przetwarzanie wyzwalaczy pakietu hicolor-icon-theme (0.17-2)...
+Przetwarzanie wyzwalaczy pakietu gnome-menus (3.36.0-1.1ubuntu1)...
+Przetwarzanie wyzwalaczy pakietu libc-bin (2.38-1ubuntu6)...
+Przetwarzanie wyzwalaczy pakietu man-db (2.11.2-3)...
+student@student-ubuntu:~$ python3 -m venv venv
+student@student-ubuntu:~$ python3 -m venv venv
+student@student-ubuntu:~$ source venv/bin/activate
+(venv) student@student-ubuntu:~$ pip install terraform-local pulumi-local
+Collecting terraform-local
+  Downloading terraform-local-0.16.1.tar.gz (13 kB)
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... done
+  Preparing metadata (pyproject.toml) ... done
+Collecting pulumi-local
+  Downloading pulumi-local-1.2.1.tar.gz (10 kB)
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... done
+  Preparing metadata (pyproject.toml) ... done
+Collecting localstack-client (from terraform-local)
+  Downloading localstack-client-2.5.tar.gz (10 kB)
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... done
+  Preparing metadata (pyproject.toml) ... done
+Collecting python-hcl2 (from terraform-local)
+  Obtaining dependency information for python-hcl2 from https://files.pythonhosted.org/packages/34/0a/39813c22334a22b43ffd16acb06aa4541ea1d34bfeab2aa2bcece83a471f/python_hcl2-4.3.2-py3-none-any.whl.metadata
+  Downloading python_hcl2-4.3.2-py3-none-any.whl.metadata (4.5 kB)
+Collecting boto3 (from localstack-client->terraform-local)
+  Obtaining dependency information for boto3 from https://files.pythonhosted.org/packages/5d/0b/af4e4bb5f87d1542da2f9d618393fbdcaa86bc35673df48c23163a10ee79/boto3-1.34.23-py3-none-any.whl.metadata
+  Downloading boto3-1.34.23-py3-none-any.whl.metadata (6.6 kB)
+Collecting lark<2,>=1 (from python-hcl2->terraform-local)
+  Obtaining dependency information for lark<2,>=1 from https://files.pythonhosted.org/packages/e7/9c/eef7c591e6dc952f3636cfe0df712c0f9916cedf317810a3bb53ccb65cdd/lark-1.1.9-py3-none-any.whl.metadata
+  Downloading lark-1.1.9-py3-none-any.whl.metadata (1.9 kB)
+Collecting botocore<1.35.0,>=1.34.23 (from boto3->localstack-client->terraform-local)
+  Obtaining dependency information for botocore<1.35.0,>=1.34.23 from https://files.pythonhosted.org/packages/ad/75/bf164ec7a9393e92faeb1a008507b9c39ba0a5c7b34f91f05c972f9fe2f5/botocore-1.34.23-py3-none-any.whl.metadata
+  Downloading botocore-1.34.23-py3-none-any.whl.metadata (5.6 kB)
+Collecting jmespath<2.0.0,>=0.7.1 (from boto3->localstack-client->terraform-local)
+  Downloading jmespath-1.0.1-py3-none-any.whl (20 kB)
+Collecting s3transfer<0.11.0,>=0.10.0 (from boto3->localstack-client->terraform-local)
+  Obtaining dependency information for s3transfer<0.11.0,>=0.10.0 from https://files.pythonhosted.org/packages/12/bb/7e7912e18cd558e7880d9b58ffc57300b2c28ffba9882b3a54ba5ce3ebc4/s3transfer-0.10.0-py3-none-any.whl.metadata
+  Downloading s3transfer-0.10.0-py3-none-any.whl.metadata (1.7 kB)
+Collecting python-dateutil<3.0.0,>=2.1 (from botocore<1.35.0,>=1.34.23->boto3->localstack-client->terraform-local)
+  Downloading python_dateutil-2.8.2-py2.py3-none-any.whl (247 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 247.7/247.7 kB 2.8 MB/s eta 0:00:00
+Collecting urllib3<2.1,>=1.25.4 (from botocore<1.35.0,>=1.34.23->boto3->localstack-client->terraform-local)
+  Obtaining dependency information for urllib3<2.1,>=1.25.4 from https://files.pythonhosted.org/packages/d2/b2/b157855192a68541a91ba7b2bbcb91f1b4faa51f8bae38d8005c034be524/urllib3-2.0.7-py3-none-any.whl.metadata
+  Downloading urllib3-2.0.7-py3-none-any.whl.metadata (6.6 kB)
+Collecting six>=1.5 (from python-dateutil<3.0.0,>=2.1->botocore<1.35.0,>=1.34.23->boto3->localstack-client->terraform-local)
+  Downloading six-1.16.0-py2.py3-none-any.whl (11 kB)
+Downloading python_hcl2-4.3.2-py3-none-any.whl (11 kB)
+Downloading lark-1.1.9-py3-none-any.whl (111 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 111.7/111.7 kB 8.9 MB/s eta 0:00:00
+Downloading boto3-1.34.23-py3-none-any.whl (139 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 139.3/139.3 kB 9.1 MB/s eta 0:00:00
+Downloading botocore-1.34.23-py3-none-any.whl (11.9 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 11.9/11.9 MB 7.8 MB/s eta 0:00:00
+Downloading s3transfer-0.10.0-py3-none-any.whl (82 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 82.1/82.1 kB 12.0 MB/s eta 0:00:00
+Downloading urllib3-2.0.7-py3-none-any.whl (124 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 124.2/124.2 kB 11.8 MB/s eta 0:00:00
+Building wheels for collected packages: terraform-local, pulumi-local, localstack-client
+  Building wheel for terraform-local (pyproject.toml) ... done
+  Created wheel for terraform-local: filename=terraform_local-0.16.1-py3-none-any.whl size=12101 sha256=c697385b88589544d78555e8d54823807c5fed5083bf72199701abda8d4ce9a0
+  Stored in directory: /home/student/.cache/pip/wheels/7c/29/ec/5523f8f4b6e090cb6170604c7bc758965b35301bf99bdf79be
+  Building wheel for pulumi-local (pyproject.toml) ... done
+  Created wheel for pulumi-local: filename=pulumi_local-1.2.1-py3-none-any.whl size=11314 sha256=1219bdcdcac46a8a8afeee32e4a47334f9415ad06553cf1428c02741eaf1395d
+  Stored in directory: /home/student/.cache/pip/wheels/e3/85/33/ab70df35c542c658e5e0fe4bf235eb44963d50b7e2fe84d949
+  Building wheel for localstack-client (pyproject.toml) ... done
+  Created wheel for localstack-client: filename=localstack_client-2.5-py3-none-any.whl size=10231 sha256=24fa45fe0747e85d86ce002ff3aee3ca312714c2f3e2fcf031c28e5287b6e7bf
+  Stored in directory: /home/student/.cache/pip/wheels/c0/81/4c/279dd6d4696fec2ab12a97e65d6c001093099622d9eaa5713c
+Successfully built terraform-local pulumi-local localstack-client
+Installing collected packages: pulumi-local, urllib3, six, lark, jmespath, python-hcl2, python-dateutil, botocore, s3transfer, boto3, localstack-client, terraform-local
+Successfully installed boto3-1.34.23 botocore-1.34.23 jmespath-1.0.1 lark-1.1.9 localstack-client-2.5 pulumi-local-1.2.1 python-dateutil-2.8.2 python-hcl2-4.3.2 s3transfer-0.10.0 six-1.16.0 terraform-local-0.16.1 urllib3-2.0.7
+(venv) student@student-ubuntu:~$ git clone https://github.com/tomaszbozek/iac-labs-infra.git
+Klonowanie do „iac-labs-infra”...
+remote: Enumerating objects: 178, done.
+remote: Counting objects: 100% (42/42), done.
+remote: Compressing objects: 100% (23/23), done.
+remote: Total 178 (delta 29), reused 19 (delta 19), pack-reused 136
+Pobieranie obiektów: 100% (178/178), 33.37 KiB | 1.85 MiB/s, gotowe.
+Rozwiązywanie delt: 100% (66/66), gotowe.
+(venv) student@student-ubuntu:~$ cd 
+.cache/         .gnupg/         Muzyka/         Publiczny/      .ssh/           Wideo/          
+.config/        iac-labs-infra/ Obrazy/         Pulpit/         Szablony/       
+Dokumenty/      .local/         Pobrane/        snap/           venv/           
+(venv) student@student-ubuntu:~$ cd iac-labs-infra/
+(venv) student@student-ubuntu:~/iac-labs-infra$ git submodule inint
+użycie: git submodule [--quiet] [--cached]
+   or: git submodule [--quiet] add [-b <branch>] [-f|--force] [--name <name>] [--reference <repository>] [--] <repository> [<path>]
+   or: git submodule [--quiet] status [--cached] [--recursive] [--] [<path>...]
+   or: git submodule [--quiet] init [--] [<path>...]
+   or: git submodule [--quiet] deinit [-f|--force] (--all| [--] <path>...)
+   or: git submodule [--quiet] update [--init [--filter=<filter-spec>]] [--remote] [-N|--no-fetch] [-f|--force] [--checkout|--merge|--rebase] [--[no-]recommend-shallow] [--reference <repository>] [--recursive] [--[no-]single-branch] [--] [<path>...]
+   or: git submodule [--quiet] set-branch (--default|--branch <branch>) [--] <path>
+   or: git submodule [--quiet] set-url [--] <path> <newurl>
+   or: git submodule [--quiet] summary [--cached|--files] [--summary-limit <n>] [commit] [--] [<path>...]
+   or: git submodule [--quiet] foreach [--recursive] <command>
+   or: git submodule [--quiet] sync [--recursive] [--] [<path>...]
+   or: git submodule [--quiet] absorbgitdirs [--] [<path>...]
+(venv) student@student-ubuntu:~/iac-labs-infra$ git submodule init
+Zarejestrowano podmoduł „iac-labs” (https://github.com/mwidera/iac-labs.git) w „iac-labs”
+(venv) student@student-ubuntu:~/iac-labs-infra$ git submodule update
+Klonowanie do „/home/student/iac-labs-infra/iac-labs”...
+Ścieżka podmodułu „iac-labs”: wybrano „b27aaf12b25be0dfcb2549a1e1ce1c55e33d7a24”
+(venv) student@student-ubuntu:~/iac-labs-infra$ cd 
+.git/      iac-labs/  pulumi/    terraform/ 
+(venv) student@student-ubuntu:~/iac-labs-infra$ cd terraform/
+(venv) student@student-ubuntu:~/iac-labs-infra/terraform$ ls
+zad1  zad2  zad3
+(venv) student@student-ubuntu:~/iac-labs-infra/terraform$ cd zad1/
+(venv) student@student-ubuntu:~/iac-labs-infra/terraform/zad1$ ls
+1-import  2-zmienne  3-moduly
+(venv) student@student-ubuntu:~/iac-labs-infra/terraform/zad1$ cd 1-import/
+(venv) student@student-ubuntu:~/iac-labs-infra/terraform/zad1/1-import$ ls
+main.tf
+(venv) student@student-ubuntu:~/iac-labs-infra/terraform/zad1/1-import$ terraform init
+
+Initializing the backend...
+
+Initializing provider plugins...
+- Finding hashicorp/aws versions matching "5.30.0"...
+- Installing hashicorp/aws v5.30.0...
+- Installed hashicorp/aws v5.30.0 (signed by HashiCorp)
+
+Terraform has created a lock file .terraform.lock.hcl to record the provider
+selections it made above. Include this file in your version control repository
+so that Terraform can guarantee to make the same selections by default when
+you run "terraform init" in the future.
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+(venv) student@student-ubuntu:~/iac-labs-infra/terraform/zad1/1-import$ terraform plan
+
+Planning failed. Terraform encountered an error while generating this plan.
+
+╷
+│ Error: No valid credential sources found
+│ 
+│   with provider["registry.terraform.io/hashicorp/aws"],
+│   on main.tf line 10, in provider "aws":
+│   10: provider "aws" {
+│ 
+│ Please see https://registry.terraform.io/providers/hashicorp/aws
+│ for more information about providing credentials.
+│ 
+│ Error: failed to refresh cached credentials, no EC2 IMDS role found, operation error ec2imds: GetMetadata, request
+│ canceled, context deadline exceeded
+│ 
+╵
+(venv) student@student-ubuntu:~/iac-labs-infra/terraform/zad1/1-import$ tflocal plan
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the
+following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # aws_instance.web will be created
+  + resource "aws_instance" "web" {
+      + ami                                  = "ami-0669b163befffbdfc"
+      + arn                                  = (known after apply)
+      + associate_public_ip_address          = (known after apply)
+      + availability_zone                    = (known after apply)
+      + cpu_core_count                       = (known after apply)
+      + cpu_threads_per_core                 = (known after apply)
+      + disable_api_stop                     = (known after apply)
+      + disable_api_termination              = (known after apply)
+      + ebs_optimized                        = (known after apply)
+      + get_password_data                    = false
+      + host_id                              = (known after apply)
+      + host_resource_group_arn              = (known after apply)
+      + iam_instance_profile                 = (known after apply)
+      + id                                   = (known after apply)
+      + instance_initiated_shutdown_behavior = (known after apply)
+      + instance_lifecycle                   = (known after apply)
+      + instance_state                       = (known after apply)
+      + instance_type                        = "t2.micro"
+      + ipv6_address_count                   = (known after apply)
+      + ipv6_addresses                       = (known after apply)
+      + key_name                             = (known after apply)
+      + monitoring                           = (known after apply)
+      + outpost_arn                          = (known after apply)
+      + password_data                        = (known after apply)
+      + placement_group                      = (known after apply)
+      + placement_partition_number           = (known after apply)
+      + primary_network_interface_id         = (known after apply)
+      + private_dns                          = (known after apply)
+      + private_ip                           = (known after apply)
+      + public_dns                           = (known after apply)
+      + public_ip                            = (known after apply)
+      + secondary_private_ips                = (known after apply)
+      + security_groups                      = (known after apply)
+      + source_dest_check                    = true
+      + spot_instance_request_id             = (known after apply)
+      + subnet_id                            = (known after apply)
+      + tags_all                             = (known after apply)
+      + tenancy                              = (known after apply)
+      + user_data                            = (known after apply)
+      + user_data_base64                     = (known after apply)
+      + user_data_replace_on_change          = false
+      + vpc_security_group_ids               = (known after apply)
+    }
+
+Plan: 1 to add, 0 to change, 0 to destroy.
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't guarantee to take exactly these actions if you
+run "terraform apply" now.
+(venv) student@student-ubuntu:~/iac-labs-infra/terraform/zad1/1-import$ cd ../2-zmienne/
+(venv) student@student-ubuntu:~/iac-labs-infra/terraform/zad1/2-zmienne$ terraform init
+
+Initializing the backend...
+
+Initializing provider plugins...
+- Finding hashicorp/aws versions matching "5.30.0"...
+- Installing hashicorp/aws v5.30.0...
+- Installed hashicorp/aws v5.30.0 (signed by HashiCorp)
+
+Terraform has created a lock file .terraform.lock.hcl to record the provider
+selections it made above. Include this file in your version control repository
+so that Terraform can guarantee to make the same selections by default when
+you run "terraform init" in the future.
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+(venv) student@student-ubuntu:~/iac-labs-infra/terraform/zad1/2-zmienne$ tflocal plan
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the
+following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # aws_instance.web will be created
+  + resource "aws_instance" "web" {
+      + ami                                  = "ami-0669b163befffbdfc"
+      + arn                                  = (known after apply)
+      + associate_public_ip_address          = (known after apply)
+      + availability_zone                    = (known after apply)
+      + cpu_core_count                       = (known after apply)
+      + cpu_threads_per_core                 = (known after apply)
+      + disable_api_stop                     = (known after apply)
+      + disable_api_termination              = (known after apply)
+      + ebs_optimized                        = (known after apply)
+      + get_password_data                    = false
+      + host_id                              = (known after apply)
+      + host_resource_group_arn              = (known after apply)
+      + iam_instance_profile                 = (known after apply)
+      + id                                   = (known after apply)
+      + instance_initiated_shutdown_behavior = (known after apply)
+      + instance_lifecycle                   = (known after apply)
+      + instance_state                       = (known after apply)
+      + instance_type                        = "t2.micro"
+      + ipv6_address_count                   = (known after apply)
+      + ipv6_addresses                       = (known after apply)
+      + key_name                             = (known after apply)
+      + monitoring                           = (known after apply)
+      + outpost_arn                          = (known after apply)
+      + password_data                        = (known after apply)
+      + placement_group                      = (known after apply)
+      + placement_partition_number           = (known after apply)
+      + primary_network_interface_id         = (known after apply)
+      + private_dns                          = (known after apply)
+      + private_ip                           = (known after apply)
+      + public_dns                           = (known after apply)
+      + public_ip                            = (known after apply)
+      + secondary_private_ips                = (known after apply)
+      + security_groups                      = (known after apply)
+      + source_dest_check                    = true
+      + spot_instance_request_id             = (known after apply)
+      + subnet_id                            = (known after apply)
+      + tags                                 = {
+          + "Name" = "foobar"
+        }
+      + tags_all                             = {
+          + "Name" = "foobar"
+        }
+      + tenancy                              = (known after apply)
+      + user_data                            = (known after apply)
+      + user_data_base64                     = (known after apply)
+      + user_data_replace_on_change          = false
+      + vpc_security_group_ids               = (known after apply)
+    }
+
+  # aws_subnet.main will be created
+  + resource "aws_subnet" "main" {
+      + arn                                            = (known after apply)
+      + assign_ipv6_address_on_creation                = false
+      + availability_zone                              = (known after apply)
+      + availability_zone_id                           = (known after apply)
+      + cidr_block                                     = "10.5.0.0/25"
+      + enable_dns64                                   = false
+      + enable_resource_name_dns_a_record_on_launch    = false
+      + enable_resource_name_dns_aaaa_record_on_launch = false
+      + id                                             = (known after apply)
+      + ipv6_cidr_block_association_id                 = (known after apply)
+      + ipv6_native                                    = false
+      + map_public_ip_on_launch                        = false
+      + owner_id                                       = (known after apply)
+      + private_dns_hostname_type_on_launch            = (known after apply)
+      + tags                                           = {
+          + "Name" = "tuts-subnet"
+        }
+      + tags_all                                       = {
+          + "Name" = "tuts-subnet"
+        }
+      + vpc_id                                         = (known after apply)
+    }
+
+  # aws_vpc.main will be created
+  + resource "aws_vpc" "main" {
+      + arn                                  = (known after apply)
+      + cidr_block                           = "10.5.0.0/16"
+      + default_network_acl_id               = (known after apply)
+      + default_route_table_id               = (known after apply)
+      + default_security_group_id            = (known after apply)
+      + dhcp_options_id                      = (known after apply)
+      + enable_dns_hostnames                 = (known after apply)
+      + enable_dns_support                   = true
+      + enable_network_address_usage_metrics = (known after apply)
+      + id                                   = (known after apply)
+      + instance_tenancy                     = "default"
+      + ipv6_association_id                  = (known after apply)
+      + ipv6_cidr_block                      = (known after apply)
+      + ipv6_cidr_block_network_border_group = (known after apply)
+      + main_route_table_id                  = (known after apply)
+      + owner_id                             = (known after apply)
+      + tags                                 = {
+          + "Name" = "some-vpc"
+          + "baz"  = "123"
+          + "foo"  = "bar"
+        }
+      + tags_all                             = {
+          + "Name" = "some-vpc"
+          + "baz"  = "123"
+          + "foo"  = "bar"
+        }
+    }
+
+Plan: 3 to add, 0 to change, 0 to destroy.
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't guarantee to take exactly these actions if you
+run "terraform apply" now.
+(venv) student@student-ubuntu:~/iac-labs-infra/terraform/zad1/2-zmienne$ cd ../3-moduly/
+(venv) student@student-ubuntu:~/iac-labs-infra/terraform/zad1/3-moduly$ terraform ini
+Terraform has no command named "ini". Did you mean "init"?
+
+To see all of Terraform's top-level commands, run:
+  terraform -help
+
+(venv) student@student-ubuntu:~/iac-labs-infra/terraform/zad1/3-moduly$ terraform init
+
+Initializing the backend...
+Initializing modules...
+- aws_vpc in modules/vpc
+- aws_vpc_east in modules/vpc
+- webserver in modules/ec2
+- webserver2 in modules/ec2
+
+Initializing provider plugins...
+- Finding hashicorp/aws versions matching "5.30.0"...
+- Installing hashicorp/aws v5.30.0...
+- Installed hashicorp/aws v5.30.0 (signed by HashiCorp)
+
+Terraform has created a lock file .terraform.lock.hcl to record the provider
+selections it made above. Include this file in your version control repository
+so that Terraform can guarantee to make the same selections by default when
+you run "terraform init" in the future.
+
+╷
+│ Warning: Reference to undefined provider
+│ 
+│   on main.tf line 11, in module "aws_vpc_east":
+│   11:     aws = aws.east
+│ 
+│ There is no explicit declaration for local provider name "aws" in module.aws_vpc_east, so Terraform is assuming you
+│ mean to pass a configuration for "hashicorp/aws".
+│ 
+│ If you also control the child module, add a required_providers entry named "aws" with the source address
+│ "hashicorp/aws".
+│ 
+│ (and one more similar warning elsewhere)
+╵
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+(venv) student@student-ubuntu:~/iac-labs-infra/terraform/zad1/3-moduly$ terraform plan
+
+Planning failed. Terraform encountered an error while generating this plan.
+
+╷
+│ Warning: Reference to undefined provider
+│ 
+│   on main.tf line 11, in module "aws_vpc_east":
+│   11:     aws = aws.east
+│ 
+│ There is no explicit declaration for local provider name "aws" in module.aws_vpc_east, so Terraform is assuming you
+│ mean to pass a configuration for "hashicorp/aws".
+│ 
+│ If you also control the child module, add a required_providers entry named "aws" with the source address
+│ "hashicorp/aws".
+╵
+╷
+│ Error: No valid credential sources found
+│ 
+│   with provider["registry.terraform.io/hashicorp/aws"],
+│   on providers.tf line 10, in provider "aws":
+│   10: provider "aws" {
+│ 
+│ Please see https://registry.terraform.io/providers/hashicorp/aws
+│ for more information about providing credentials.
+│ 
+│ Error: failed to refresh cached credentials, no EC2 IMDS role found, operation error ec2imds: GetMetadata, request
+│ canceled, context deadline exceeded
+│ 
+╵
+╷
+│ Error: No valid credential sources found
+│ 
+│   with provider["registry.terraform.io/hashicorp/aws"].east,
+│   on providers.tf line 14, in provider "aws":
+│   14: provider "aws" {
+│ 
+│ Please see https://registry.terraform.io/providers/hashicorp/aws
+│ for more information about providing credentials.
+│ 
+│ Error: failed to refresh cached credentials, no EC2 IMDS role found, operation error ec2imds: GetMetadata, request
+│ canceled, context deadline exceeded
+│ 
+╵
+(venv) student@student-ubuntu:~/iac-labs-infra/terraform/zad1/3-moduly$ tflocal plan
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the
+following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # module.aws_vpc.aws_vpc.main will be created
+  + resource "aws_vpc" "main" {
+      + arn                                  = (known after apply)
+      + cidr_block                           = "10.0.0.0/16"
+      + default_network_acl_id               = (known after apply)
+      + default_route_table_id               = (known after apply)
+      + default_security_group_id            = (known after apply)
+      + dhcp_options_id                      = (known after apply)
+      + enable_dns_hostnames                 = (known after apply)
+      + enable_dns_support                   = true
+      + enable_network_address_usage_metrics = (known after apply)
+      + id                                   = (known after apply)
+      + instance_tenancy                     = "default"
+      + ipv6_association_id                  = (known after apply)
+      + ipv6_cidr_block                      = (known after apply)
+      + ipv6_cidr_block_network_border_group = (known after apply)
+      + main_route_table_id                  = (known after apply)
+      + owner_id                             = (known after apply)
+      + tags_all                             = (known after apply)
+    }
+
+  # module.aws_vpc_east.aws_vpc.main will be created
+  + resource "aws_vpc" "main" {
+      + arn                                  = (known after apply)
+      + cidr_block                           = "10.0.0.0/16"
+      + default_network_acl_id               = (known after apply)
+      + default_route_table_id               = (known after apply)
+      + default_security_group_id            = (known after apply)
+      + dhcp_options_id                      = (known after apply)
+      + enable_dns_hostnames                 = (known after apply)
+      + enable_dns_support                   = true
+      + enable_network_address_usage_metrics = (known after apply)
+      + id                                   = (known after apply)
+      + instance_tenancy                     = "default"
+      + ipv6_association_id                  = (known after apply)
+      + ipv6_cidr_block                      = (known after apply)
+      + ipv6_cidr_block_network_border_group = (known after apply)
+      + main_route_table_id                  = (known after apply)
+      + owner_id                             = (known after apply)
+      + tags_all                             = (known after apply)
+    }
+
+  # module.webserver.aws_instance.webserver will be created
+  + resource "aws_instance" "webserver" {
+      + ami                                  = "ami-0669b163befffbdfc"
+      + arn                                  = (known after apply)
+      + associate_public_ip_address          = true
+      + availability_zone                    = (known after apply)
+      + cpu_core_count                       = (known after apply)
+      + cpu_threads_per_core                 = (known after apply)
+      + disable_api_stop                     = (known after apply)
+      + disable_api_termination              = (known after apply)
+      + ebs_optimized                        = (known after apply)
+      + get_password_data                    = false
+      + host_id                              = (known after apply)
+      + host_resource_group_arn              = (known after apply)
+      + iam_instance_profile                 = (known after apply)
+      + id                                   = (known after apply)
+      + instance_initiated_shutdown_behavior = (known after apply)
+      + instance_lifecycle                   = (known after apply)
+      + instance_state                       = (known after apply)
+      + instance_type                        = "t2.micro"
+      + ipv6_address_count                   = (known after apply)
+      + ipv6_addresses                       = (known after apply)
+      + key_name                             = (known after apply)
+      + monitoring                           = (known after apply)
+      + outpost_arn                          = (known after apply)
+      + password_data                        = (known after apply)
+      + placement_group                      = (known after apply)
+      + placement_partition_number           = (known after apply)
+      + primary_network_interface_id         = (known after apply)
+      + private_dns                          = (known after apply)
+      + private_ip                           = (known after apply)
+      + public_dns                           = (known after apply)
+      + public_ip                            = (known after apply)
+      + secondary_private_ips                = (known after apply)
+      + security_groups                      = (known after apply)
+      + source_dest_check                    = true
+      + spot_instance_request_id             = (known after apply)
+      + subnet_id                            = (known after apply)
+      + tags                                 = {
+          + "Name" = "web1"
+        }
+      + tags_all                             = {
+          + "Name" = "web1"
+        }
+      + tenancy                              = (known after apply)
+      + user_data                            = (known after apply)
+      + user_data_base64                     = (known after apply)
+      + user_data_replace_on_change          = false
+      + vpc_security_group_ids               = (known after apply)
+    }
+
+  # module.webserver.aws_subnet.webserver will be created
+  + resource "aws_subnet" "webserver" {
+      + arn                                            = (known after apply)
+      + assign_ipv6_address_on_creation                = false
+      + availability_zone                              = (known after apply)
+      + availability_zone_id                           = (known after apply)
+      + cidr_block                                     = "10.0.16.0/20"
+      + enable_dns64                                   = false
+      + enable_resource_name_dns_a_record_on_launch    = false
+      + enable_resource_name_dns_aaaa_record_on_launch = false
+      + id                                             = (known after apply)
+      + ipv6_cidr_block_association_id                 = (known after apply)
+      + ipv6_native                                    = false
+      + map_public_ip_on_launch                        = false
+      + owner_id                                       = (known after apply)
+      + private_dns_hostname_type_on_launch            = (known after apply)
+      + tags_all                                       = (known after apply)
+      + vpc_id                                         = (known after apply)
+    }
+
+  # module.webserver2.aws_instance.webserver will be created
+  + resource "aws_instance" "webserver" {
+      + ami                                  = "ami-0230bd60aa48260c6"
+      + arn                                  = (known after apply)
+      + associate_public_ip_address          = true
+      + availability_zone                    = (known after apply)
+      + cpu_core_count                       = (known after apply)
+      + cpu_threads_per_core                 = (known after apply)
+      + disable_api_stop                     = (known after apply)
+      + disable_api_termination              = (known after apply)
+      + ebs_optimized                        = (known after apply)
+      + get_password_data                    = false
+      + host_id                              = (known after apply)
+      + host_resource_group_arn              = (known after apply)
+      + iam_instance_profile                 = (known after apply)
+      + id                                   = (known after apply)
+      + instance_initiated_shutdown_behavior = (known after apply)
+      + instance_lifecycle                   = (known after apply)
+      + instance_state                       = (known after apply)
+      + instance_type                        = "t2.micro"
+      + ipv6_address_count                   = (known after apply)
+      + ipv6_addresses                       = (known after apply)
+      + key_name                             = (known after apply)
+      + monitoring                           = (known after apply)
+      + outpost_arn                          = (known after apply)
+      + password_data                        = (known after apply)
+      + placement_group                      = (known after apply)
+      + placement_partition_number           = (known after apply)
+      + primary_network_interface_id         = (known after apply)
+      + private_dns                          = (known after apply)
+      + private_ip                           = (known after apply)
+      + public_dns                           = (known after apply)
+      + public_ip                            = (known after apply)
+      + secondary_private_ips                = (known after apply)
+      + security_groups                      = (known after apply)
+      + source_dest_check                    = true
+      + spot_instance_request_id             = (known after apply)
+      + subnet_id                            = (known after apply)
+      + tags                                 = {
+          + "Name" = "web2"
+        }
+      + tags_all                             = {
+          + "Name" = "web2"
+        }
+      + tenancy                              = (known after apply)
+      + user_data                            = (known after apply)
+      + user_data_base64                     = (known after apply)
+      + user_data_replace_on_change          = false
+      + vpc_security_group_ids               = (known after apply)
+    }
+
+  # module.webserver2.aws_subnet.webserver will be created
+  + resource "aws_subnet" "webserver" {
+      + arn                                            = (known after apply)
+      + assign_ipv6_address_on_creation                = false
+      + availability_zone                              = (known after apply)
+      + availability_zone_id                           = (known after apply)
+      + cidr_block                                     = "10.0.32.0/20"
+      + enable_dns64                                   = false
+      + enable_resource_name_dns_a_record_on_launch    = false
+      + enable_resource_name_dns_aaaa_record_on_launch = false
+      + id                                             = (known after apply)
+      + ipv6_cidr_block_association_id                 = (known after apply)
+      + ipv6_native                                    = false
+      + map_public_ip_on_launch                        = false
+      + owner_id                                       = (known after apply)
+      + private_dns_hostname_type_on_launch            = (known after apply)
+      + tags_all                                       = (known after apply)
+      + vpc_id                                         = (known after apply)
+    }
+
+Plan: 6 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + webserver  = (known after apply)
+  + webserver2 = (known after apply)
+╷
+│ Warning: Reference to undefined provider
+│ 
+│   on main.tf line 11, in module "aws_vpc_east":
+│   11:     aws = aws.east
+│ 
+│ There is no explicit declaration for local provider name "aws" in module.aws_vpc_east, so Terraform is assuming you
+│ mean to pass a configuration for "hashicorp/aws".
+│ 
+│ If you also control the child module, add a required_providers entry named "aws" with the source address
+│ "hashicorp/aws".
+╵
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't guarantee to take exactly these actions if you
+run "terraform apply" now.
+(venv) student@student-ubuntu:~/iac-labs-infra/terraform/zad1/3-moduly$ ^C
+(venv) student@student-ubuntu:~/iac-labs-infra/terraform/zad1/3-moduly$ ls
+main.tf  modules  outputs.tf  providers.tf
+(venv) student@student-ubuntu:~/iac-labs-infra/terraform/zad1/3-moduly$ cd ../
+(venv) student@student-ubuntu:~/iac-labs-infra/terraform/zad1$ cd ../
+(venv) student@student-ubuntu:~/iac-labs-infra/terraform$ cd ../
+(venv) student@student-ubuntu:~/iac-labs-infra$ touch zad1_logs.txt
+(venv) student@student-ubuntu:~/iac-labs-infra$ mc
+Polecenie 'mc' nie zostało znalezione, ale można je zainstalować za pomocą:
+sudo apt install mc
+(venv) student@student-ubuntu:~/iac-labs-infra$ git status
+
