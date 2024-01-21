@@ -1,0 +1,350 @@
+student@student-ubuntu:~/iac-labs-infra/terraform/zad3$ pulumi version
+pulumi: nie znaleziono polecenia
+student@student-ubuntu:~/iac-labs-infra/terraform/zad3$ curl -fsSL https://get.pulumi.com | sh
+=== Installing Pulumi v3.102.0 ===
++ Downloading https://github.com/pulumi/pulumi/releases/download/v3.102.0/pulumi-v3.102.0-linux-x64.tar.gz...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100  147M  100  147M    0     0  4612k      0  0:00:32  0:00:32 --:--:-- 5974k
++ Extracting to /home/student/.pulumi/bin
++ Adding /home/student/.pulumi/bin to $PATH in /home/student/.bashrc
+
+=== Pulumi is now installed! 🍹 ===
++ Please restart your shell or add /home/student/.pulumi/bin to your $PATH
++ Get started with Pulumi: https://www.pulumi.com/docs/quickstart
+student@student-ubuntu:~/iac-labs-infra/terraform/zad3$ export PATH=$PATH:/home/student/.pulumi/bin
+student@student-ubuntu:~/iac-labs-infra/terraform/zad3$ pulumi version
+v3.102.0
+student@student-ubuntu:~/iac-labs-infra/terraform/zad3$ cd ../../
+student@student-ubuntu:~/iac-labs-infra$ ls
+iac-labs  lab2_zad2_logs.txt  lab2_zad3_logs.txt  pulumi  README.md  terraform  zad1_logs.txt
+student@student-ubuntu:~/iac-labs-infra$ cd pulumi
+student@student-ubuntu:~/iac-labs-infra/pulumi$ pulumi new aws-python --force
+Manage your Pulumi stacks by logging in.
+Run `pulumi login --help` for alternative login options.
+Enter your access token from https://app.pulumi.com/account/tokens
+error: EOF
+student@student-ubuntu:~/iac-labs-infra/pulumi$ ^C
+student@student-ubuntu:~/iac-labs-infra/pulumi$ pulumi new aws-python --force
+Manage your Pulumi stacks by logging in.
+Run `pulumi login --help` for alternative login options.
+Enter your access token from https://app.pulumi.com/account/tokens
+    or hit <ENTER> to log in using your browser                   :  
+
+
+  Welcome to Pulumi!
+
+  Pulumi helps you create, deploy, and manage infrastructure on any cloud using
+  your favorite language. You can get started today with Pulumi at:
+
+      https://www.pulumi.com/docs/get-started/
+
+  Tip: Resources you create with Pulumi are given unique names (a randomly
+  generated suffix) by default. To learn more about auto-naming or customizing resource
+  names see https://www.pulumi.com/docs/intro/concepts/resources/#autonaming.
+
+
+This command will walk you through creating a new Pulumi project.
+
+Enter a value or leave blank to accept the (default), and press <ENTER>.
+Press ^C at any time to quit.
+
+project name (project): zad1 
+project description (A minimal AWS Python Pulumi program): Empty 
+Created project 'zad1'
+
+Please enter your desired stack name.
+To create a stack in an organization, use the format <org-name>/<stack-name> (e.g. `acmecorp/dev`).
+stack name (dev): 83030 
+Created stack '83030'
+
+aws:region: The AWS region to deploy into (us-east-1):  
+Saved config
+
+Installing dependencies...
+
+Creating virtual environment...
+Finished creating virtual environment
+Updating pip, setuptools, and wheel in virtual environment...
+Requirement already satisfied: pip in ./venv/lib/python3.11/site-packages (23.2)
+Collecting pip
+  Obtaining dependency information for pip from https://files.pythonhosted.org/packages/15/aa/3f4c7bcee2057a76562a5b33ecbd199be08cdb4443a02e26bd2c3cf6fc39/pip-23.3.2-py3-none-any.whl.metadata
+  Downloading pip-23.3.2-py3-none-any.whl.metadata (3.5 kB)
+Requirement already satisfied: setuptools in ./venv/lib/python3.11/site-packages (68.1.2)
+Collecting setuptools
+  Obtaining dependency information for setuptools from https://files.pythonhosted.org/packages/55/3a/5121b58b578a598b269537e09a316ad2a94fdd561a2c6eb75cd68578cc6b/setuptools-69.0.3-py3-none-any.whl.metadata
+  Using cached setuptools-69.0.3-py3-none-any.whl.metadata (6.3 kB)
+Collecting wheel
+  Obtaining dependency information for wheel from https://files.pythonhosted.org/packages/c7/c3/55076fc728723ef927521abaa1955213d094933dc36d4a2008d5101e1af5/wheel-0.42.0-py3-none-any.whl.metadata
+  Using cached wheel-0.42.0-py3-none-any.whl.metadata (2.2 kB)
+Downloading pip-23.3.2-py3-none-any.whl (2.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 12.3 MB/s eta 0:00:00
+Using cached setuptools-69.0.3-py3-none-any.whl (819 kB)
+Using cached wheel-0.42.0-py3-none-any.whl (65 kB)
+Installing collected packages: wheel, setuptools, pip
+  Attempting uninstall: setuptools
+    Found existing installation: setuptools 68.1.2
+    Uninstalling setuptools-68.1.2:
+      Successfully uninstalled setuptools-68.1.2
+  Attempting uninstall: pip
+    Found existing installation: pip 23.2
+    Uninstalling pip-23.2:
+      Successfully uninstalled pip-23.2
+Successfully installed pip-23.3.2 setuptools-69.0.3 wheel-0.42.0
+Finished updating
+Installing dependencies in virtual environment...
+Collecting pulumi<4.0.0,>=3.0.0 (from -r requirements.txt (line 1))
+  Downloading pulumi-3.102.0-py3-none-any.whl.metadata (11 kB)
+Collecting pulumi-aws<7.0.0,>=6.0.2 (from -r requirements.txt (line 2))
+  Downloading pulumi_aws-6.18.1-py3-none-any.whl.metadata (9.4 kB)
+Collecting protobuf~=4.21 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
+  Downloading protobuf-4.25.2-cp37-abi3-manylinux2014_x86_64.whl.metadata (541 bytes)
+Collecting grpcio==1.56.2 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
+  Downloading grpcio-1.56.2-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.0 kB)
+Collecting dill~=0.3 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
+  Downloading dill-0.3.7-py3-none-any.whl.metadata (9.9 kB)
+Collecting six~=1.12 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
+  Downloading six-1.16.0-py2.py3-none-any.whl (11 kB)
+Collecting semver~=2.13 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
+  Downloading semver-2.13.0-py2.py3-none-any.whl (12 kB)
+Collecting pyyaml~=6.0 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
+  Downloading PyYAML-6.0.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (2.1 kB)
+Collecting parver>=0.2.1 (from pulumi-aws<7.0.0,>=6.0.2->-r requirements.txt (line 2))
+  Downloading parver-0.5-py3-none-any.whl.metadata (2.7 kB)
+Collecting arpeggio>=1.7 (from parver>=0.2.1->pulumi-aws<7.0.0,>=6.0.2->-r requirements.txt (line 2))
+  Downloading Arpeggio-2.0.2-py2.py3-none-any.whl.metadata (2.4 kB)
+Collecting attrs>=19.2 (from parver>=0.2.1->pulumi-aws<7.0.0,>=6.0.2->-r requirements.txt (line 2))
+  Downloading attrs-23.2.0-py3-none-any.whl.metadata (9.5 kB)
+Downloading pulumi-3.102.0-py3-none-any.whl (192 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 192.9/192.9 kB 3.3 MB/s eta 0:00:00
+Downloading grpcio-1.56.2-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (5.2 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.2/5.2 MB 17.1 MB/s eta 0:00:00
+Downloading pulumi_aws-6.18.1-py3-none-any.whl (8.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 8.1/8.1 MB 23.3 MB/s eta 0:00:00
+Downloading dill-0.3.7-py3-none-any.whl (115 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 115.3/115.3 kB 8.0 MB/s eta 0:00:00
+Downloading parver-0.5-py3-none-any.whl (15 kB)
+Downloading protobuf-4.25.2-cp37-abi3-manylinux2014_x86_64.whl (294 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 294.6/294.6 kB 33.4 MB/s eta 0:00:00
+Downloading PyYAML-6.0.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (757 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 757.7/757.7 kB 20.2 MB/s eta 0:00:00
+Downloading Arpeggio-2.0.2-py2.py3-none-any.whl (55 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 55.3/55.3 kB 10.0 MB/s eta 0:00:00
+Downloading attrs-23.2.0-py3-none-any.whl (60 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 60.8/60.8 kB 10.0 MB/s eta 0:00:00
+Installing collected packages: arpeggio, six, semver, pyyaml, protobuf, grpcio, dill, attrs, pulumi, parver, pulumi-aws
+Successfully installed arpeggio-2.0.2 attrs-23.2.0 dill-0.3.7 grpcio-1.56.2 parver-0.5 protobuf-4.25.2 pulumi-3.102.0 pulumi-aws-6.18.1 pyyaml-6.0.1 semver-2.13.0 six-1.16.0
+Finished installing dependencies
+Finished installing dependencies
+
+Your new project is ready to go! 
+
+To perform an initial deployment, run `pulumi up`
+
+student@student-ubuntu:~/iac-labs-infra/pulumi$ ls
+__main__.py  Pulumi.83030.yaml  Pulumi.yaml  requirements.txt  venv  zad1  zad2
+student@student-ubuntu:~/iac-labs-infra/pulumi$ pulumi up
+Previewing update (83030)
+
+View in Browser (Ctrl+O): https://app.pulumi.com/tomaszbozek/zad1/83030/previews/1b6b10ea-cddb-40b4-8006-657544c5c181
+
+Downloading plugin: 183.71 MiB / 183.71 MiB [=======================] 100.00% 6s
+                                                                                [resource plugin aws-6.18.1] installing
+     Type                     Name            Plan       Info
+ +   pulumi:pulumi:Stack      zad1-83030      create     
+     └─ pulumi:providers:aws  default_6_18_1             1 error
+
+Diagnostics:
+  pulumi:providers:aws (default_6_18_1):
+    error: rpc error: code = Unknown desc = unable to validate AWS credentials.
+    Details: No valid credential sources found. Please see https://www.pulumi.com/registry/packages/aws/installation-configuration/
+    for more information about providing credentials.
+    
+    Error: failed to refresh cached credentials, no EC2 IMDS role found, operation error ec2imds: GetMetadata, access disabled to EC2 IMDS via client option, or "AWS_EC2_METADATA_DISABLED" environment variable
+    
+    Make sure you have set your AWS region, e.g. `pulumi config set aws:region us-west-2`.
+    
+    NEW: You can use Pulumi ESC to set up dynamic credentials with AWS OIDC to ensure the correct and valid credentials are used.
+    Learn more: https://www.pulumi.com/registry/packages/aws/installation-configuration/#dynamically-generate-credentials
+
+
+student@student-ubuntu:~/iac-labs-infra/pulumi$ ls
+__main__.py  Pulumi.83030.yaml  Pulumi.yaml  __pycache__  requirements.txt  venv  zad1  zad2
+student@student-ubuntu:~/iac-labs-infra/pulumi$ cat Pulumi.yaml 
+name: zad1
+runtime:
+  name: python
+  options:
+    virtualenv: venv
+description: Empty
+student@student-ubuntu:~/iac-labs-infra/pulumi$ cat Pulumi.83030.yaml 
+config:
+  aws:region: us-east-1
+student@student-ubuntu:~/iac-labs-infra/pulumi$ cd zad
+zad1/ zad2/ 
+student@student-ubuntu:~/iac-labs-infra/pulumi$ cd zad
+zad1/ zad2/ 
+student@student-ubuntu:~/iac-labs-infra/pulumi$ cd zad1
+student@student-ubuntu:~/iac-labs-infra/pulumi/zad1$ ls
+__main__.py  Pulumi.yaml  requirements.txt
+student@student-ubuntu:~/iac-labs-infra/pulumi/zad1$ cat Pulumi.yaml 
+name: zad1
+runtime:
+  name: python
+  options:
+    virtualenv: venv
+description: A minimal AWS Python Pulumi program
+student@student-ubuntu:~/iac-labs-infra/pulumi/zad1$ cat requirements.txt 
+pulumi>=3.0.0,<4.0.0
+pulumi-aws>=6.0.2,<7.0.0
+student@student-ubuntu:~/iac-labs-infra/pulumi/zad1$ pulumi up
+Please choose a stack, or create a new one: 83030
+Previewing update (83030)
+
+View in Browser (Ctrl+O): https://app.pulumi.com/tomaszbozek/zad1/83030/previews/65775e69-8b4c-4c7c-bc42-c07157bcd693
+
+     Type                     Name            Plan       Info
+ +   pulumi:pulumi:Stack      zad1-83030      create     
+     └─ pulumi:providers:aws  default_6_18_1             1 error
+
+Diagnostics:
+  pulumi:providers:aws (default_6_18_1):
+    error: rpc error: code = Unknown desc = unable to validate AWS credentials.
+    Details: No valid credential sources found. Please see https://www.pulumi.com/registry/packages/aws/installation-configuration/
+    for more information about providing credentials.
+    
+    Error: failed to refresh cached credentials, no EC2 IMDS role found, operation error ec2imds: GetMetadata, request canceled, context deadline exceeded
+    
+    Make sure you have set your AWS region, e.g. `pulumi config set aws:region us-west-2`.
+    
+    NEW: You can use Pulumi ESC to set up dynamic credentials with AWS OIDC to ensure the correct and valid credentials are used.
+    Learn more: https://www.pulumi.com/registry/packages/aws/installation-configuration/#dynamically-generate-credentials
+
+
+student@student-ubuntu:~/iac-labs-infra/pulumi/zad1$ plocal
+Nie znaleziono polecenia 'plocal', czy chodziło o:
+  polecenie 'tlocal' z pakietu deb ncl-ncarg (6.6.2.dfsg.1-2)
+  polecenie 'slocal' z pakietu deb mmh (0.4-4)
+  polecenie 'glocal' z pakietu deb lagan (2.0-9)
+Wypróbuj: sudo apt install <nazwa pakietu deb>
+student@student-ubuntu:~/iac-labs-infra/pulumi/zad1$ pulumi-local
+pulumi-local: nie znaleziono polecenia
+student@student-ubuntu:~/iac-labs-infra/pulumi/zad1$ pllocal
+pllocal: nie znaleziono polecenia
+student@student-ubuntu:~/iac-labs-infra/pulumi/zad1$ pulumilocal up
+Updating this Stack with LocalStack config
+error: no stack selected; please use `pulumi stack select` or `pulumi stack init` to choose one
+student@student-ubuntu:~/iac-labs-infra/pulumi/zad1$ pulumilocal stack init
+Please enter your desired stack name.
+To create a stack in an organization, use the format <org-name>/<stack-name> (e.g. `acmecorp/dev`).
+stack name (dev): 83030 
+error: stack 'tomaszbozek/zad1/83030' already exists
+student@student-ubuntu:~/iac-labs-infra/pulumi/zad1$ pulumilocal stack init
+Please enter your desired stack name.
+To create a stack in an organization, use the format <org-name>/<stack-name> (e.g. `acmecorp/dev`).
+stack name (dev): 83030-local 
+Created stack '83030-local'
+student@student-ubuntu:~/iac-labs-infra/pulumi/zad1$ pulumilocal up
+Updating this Stack with LocalStack config
+Previewing update (83030-local)
+
+View in Browser (Ctrl+O): https://app.pulumi.com/tomaszbozek/zad1/83030-local/previews/a7f7964e-c9ee-46b6-b9b9-efcae028ecf3
+
+     Type                 Name              Plan       
+ +   pulumi:pulumi:Stack  zad1-83030-local  create     
+ +   └─ aws:s3:Bucket     my-bucket         create     
+
+Outputs:
+    bucket_name: output<string>
+
+Resources:
+    + 2 to create
+
+Do you want to perform this update? yes
+Updating (83030-local)
+
+View in Browser (Ctrl+O): https://app.pulumi.com/tomaszbozek/zad1/83030-local/updates/1
+
+     Type                 Name              Status            
+ +   pulumi:pulumi:Stack  zad1-83030-local  created (22s)     
+ +   └─ aws:s3:Bucket     my-bucket         created (2s)      
+
+Outputs:
+    bucket_name: "my-bucket-b3fc78b"
+
+Resources:
+    + 2 created
+
+Duration: 24s
+
+student@student-ubuntu:~/iac-labs-infra/pulumi/zad1$ touch index.html
+student@student-ubuntu:~/iac-labs-infra/pulumi/zad1$ pulumilocal preview
+Updating this Stack with LocalStack config
+Previewing update (83030-local)
+
+View in Browser (Ctrl+O): https://app.pulumi.com/tomaszbozek/zad1/83030-local/previews/cb28e3bd-76ed-4750-9632-cb7ed4e3a65f
+
+     Type                               Name                 Plan       Info
+     pulumi:pulumi:Stack                zad1-83030-local                
+ ~   ├─ aws:s3:Bucket                   my-bucket            update     [diff: +website]
+ +   ├─ aws:s3:BucketPublicAccessBlock  public-access-block  create     
+ +   ├─ aws:s3:BucketObject             index.html           create     
+ +   └─ aws:s3:BucketPolicy             bucket-policy        create     
+
+Outputs:
+  + bucket_endpoint: output<string>
+  - bucket_name    : "my-bucket-b3fc78b"
+
+Resources:
+    + 3 to create
+    ~ 1 to update
+    4 changes. 1 unchanged
+
+student@student-ubuntu:~/iac-labs-infra/pulumi/zad1$ pulumi up
+Previewing update (83030-local)
+
+View in Browser (Ctrl+O): https://app.pulumi.com/tomaszbozek/zad1/83030-local/previews/d6fdaf55-f77b-4859-a5f8-6dfb5d94eb9e
+
+     Type                               Name                 Plan       Info
+     pulumi:pulumi:Stack                zad1-83030-local                
+ ~   ├─ aws:s3:Bucket                   my-bucket            update     [diff: +website]
+ +   ├─ aws:s3:BucketPublicAccessBlock  public-access-block  create     
+ +   ├─ aws:s3:BucketObject             index.html           create     
+ +   └─ aws:s3:BucketPolicy             bucket-policy        create     
+
+Outputs:
+  + bucket_endpoint: output<string>
+  - bucket_name    : "my-bucket-b3fc78b"
+
+Resources:
+    + 3 to create
+    ~ 1 to update
+    4 changes. 1 unchanged
+
+Do you want to perform this update? yes
+Updating (83030-local)
+
+View in Browser (Ctrl+O): https://app.pulumi.com/tomaszbozek/zad1/83030-local/updates/2
+
+     Type                               Name                 Status              Info
+     pulumi:pulumi:Stack                zad1-83030-local                         
+ ~   ├─ aws:s3:Bucket                   my-bucket            updated (0.67s)     [diff: +website]
+ +   ├─ aws:s3:BucketObject             index.html           created (0.68s)     
+ +   ├─ aws:s3:BucketPublicAccessBlock  public-access-block  created (0.86s)     
+ +   └─ aws:s3:BucketPolicy             bucket-policy        created (0.30s)     
+
+Outputs:
+  + bucket_endpoint: "http://my-bucket-b3fc78b.s3-website-us-east-1.amazonaws.com"
+  - bucket_name    : "my-bucket-b3fc78b"
+
+Resources:
+    + 3 created
+    ~ 1 updated
+    4 changes. 1 unchanged
+
+Duration: 22s
+
+student@student-ubuntu:~/iac-labs-infra/pulumi/zad1$ ^C
+student@student-ubuntu:~/iac-labs-infra/pulumi/zad1$ 
+
