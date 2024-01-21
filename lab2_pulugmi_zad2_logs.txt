@@ -1,0 +1,62 @@
+student@student-ubuntu:~/iac-labs-infra/pulumi/zad1$ 
+student@student-ubuntu:~/iac-labs-infra/pulumi/zad1$ 
+student@student-ubuntu:~/iac-labs-infra/pulumi/zad1$ 
+student@student-ubuntu:~/iac-labs-infra/pulumi/zad1$ 
+student@student-ubuntu:~/iac-labs-infra/pulumi/zad1$ cd ../zad2/
+student@student-ubuntu:~/iac-labs-infra/pulumi/zad2$ ls
+__main__.py  Pulumi.yaml  requirements.txt
+student@student-ubuntu:~/iac-labs-infra/pulumi/zad2$ pulumi up
+Please choose a stack, or create a new one: <create a new stack>
+Please enter your desired stack name.
+To create a stack in an organization, use the format <org-name>/<stack-name> (e.g. `acmecorp/dev`): 83030-local 
+Please enter your desired stack name.
+Created stack '83030-local'
+Previewing update (83030-local)
+
+View in Browser (Ctrl+O): https://app.pulumi.com/tomaszbozek/zad2/83030-local/previews/c9c51a5d-0c59-4b91-ad88-212e7f76ffe2
+
+     Type                 Name              Plan     Info
+     pulumi:pulumi:Stack  zad2-83030-local           Finished installing dependencies
+E0121 14:39:29.280875   41971 log.go:91] GitHub rate limit exceeded for https://api.github.com/repos/pulumi/pulumi-command     Type                 Name              Plan     Info
+     pulumi:pulumi:Stack  zad2-83030-local           Finished installing dependencies
+     Type                         Name                 Plan       
+ +   pulumi:pulumi:Stack          zad2-83030-local     create     
+ +   ├─ docker:index:RemoteImage  exampleApp           create     
+ +   ├─ docker:index:RemoteImage  postgresRemoteImage  create     
+ +   ├─ docker:index:Network      shared               create     
+ +   ├─ docker:index:Container    db                   create     
+ +   └─ docker:index:Container    example-app          create     
+
+Resources:
+    + 6 to create
+
+Do you want to perform this update? yes
+Updating (83030-local)
+
+View in Browser (Ctrl+O): https://app.pulumi.com/tomaszbozek/zad2/83030-local/updates/1
+
+     Type                         Name                 Status                       Info
+ +   pulumi:pulumi:Stack          zad2-83030-local     **creating failed (3s)**     1 error
+ +   ├─ docker:index:RemoteImage  exampleApp           created (3s)                 
+ +   ├─ docker:index:RemoteImage  postgresRemoteImage  created (0.67s)              
+ +   ├─ docker:index:Network      shared               created (3s)                 
+ +   ├─ docker:index:Container    example-app          **creating failed**          1 error
+ +   └─ docker:index:Container    db                   **creating failed**          1 error
+
+Diagnostics:
+  docker:index:Container (example-app):
+    error: 1 error occurred:
+    	* Unable to create container: Error response from daemon: Conflict. The container name "/example-app" is already in use by container "dbefbc63c7c93339fe793c9424a3c46db605ede4bd06900ce5a6a69e9b404ee4". You have to remove (or rename) that container to be able to reuse that name.
+
+  docker:index:Container (db):
+    error: 1 error occurred:
+    	* Unable to create container: Error response from daemon: Conflict. The container name "/db" is already in use by container "fd946752ac133d93bd5657107f3fb17abd0e09ce8459ec043c6654ef67a27365". You have to remove (or rename) that container to be able to reuse that name.
+
+  pulumi:pulumi:Stack (zad2-83030-local):
+    error: update failed
+
+Resources:
+    + 4 created
+
+Duration: 10s
+
