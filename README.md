@@ -36,8 +36,8 @@ Adres repozytorium:
 ### Terraform
 
 - Sprawdź działanie aplikacji: `terraform --version`
-- Jeśli aplikacja nie jest zainstalowana, wykonaj polecenie: `wget https://releases.hashicorp.com/terraform/1.6.6/terraform_1.6.6_linux_amd64.zip`
-- Rozpakuj pobrany plik: `unzip terraform_1.6.6_linux_amd64.zip`
+- Jeśli aplikacja nie jest zainstalowana, wykonaj polecenie: `wget https://releases.hashicorp.com/terraform/1.10.3/terraform_1.10.3_linux_amd64.zip`
+- Rozpakuj pobrany plik: `unzip terraform_1.10.3_linux_amd64.zip`
 - Przenieś plik do katalogu binarnego: `sudo mv terraform /usr/local/bin/`
 - Zweirfikuj działanie aplikacji: `terraform --version`
 
@@ -53,9 +53,9 @@ Adres repozytorium:
 - Sprawdź czy aplikacja istnieje: `localstack --version`
 - Jeśli aplikacja nie jest zainstalowana, wykonaj polecenie:
 
-```curl -Lo localstack-cli-3.0.2-linux-amd64-onefile.tar.gz https://github.com/localstack/localstack-cli/releases/download/v3.0.2/localstack-cli-3.0.2-linux-amd64-onefile.tar.gz```
+```curl -Lo localstack-cli-4.0.0.tar.gz https://github.com/localstack/localstack-cli/releases/download/v4.0.0/localstack-cli-4.0.0-linux-amd64-onefile.tar.gz```
 
-- Wypakuj pobrany plik: `sudo tar xvzf localstack-cli-3.0.2-linux-*-onefile.tar.gz -C /usr/local/bin`
+- Wypakuj pobrany plik: `sudo tar xvzf localstack-cli-*.tar.gz -C /usr/local/bin`
 - Zweryfikuj działanie aplikacji: `localstack --version`
 - Uruchom `localstack start`
 
@@ -94,7 +94,7 @@ Klucz i sekret pobierz z konta AWSowego
 
 ### Praca z Terraform
 
-- Przejdź do katalogu terraform/zad1 i następnie do podkatalogów niżej
+- Przejdź do katalogu `cd terraform/zad1` i następnie do podkatalogów niżej (`1-import`, `2-zmienne`, `3-moduly`)
 - Otwórz plik `main.tf` w każdym z katalogów: 1-import, 2-zmienne, 3-moduly
 - Wykonaj `terraform init` (albo: `tflocal`) i obserwuj pobrane zależności.
 - Użyj `terraform plan` i `terraform apply` do zaaplikowania infrastruktury.
@@ -130,9 +130,10 @@ Klucz i sekret pobierz z konta AWSowego
 
 ### Inicjowanie i Tworzenie Infrastruktury
 
+- Przejdź do katalogu `cd terraform/zad2`
 - Wykonaj `terraform init`.
 - Użyj `terraform plan` i `terraform apply`
-- Dla maszyn z puli VMWare uzyj polecenia ` sudo groupadd docker; sudo usermod -aG docker $USER; newgrp docker`
+- Dla maszyn z puli VMWare uzyj polecenia `sudo groupadd docker; sudo usermod -aG docker $USER; newgrp docker`
   
 ### Modyfikacja Infrastruktury
 
@@ -160,7 +161,7 @@ Uruchomienie aplikacji lokalnie jako element odwzorowania środowiska docelowego
 
 ### Konfiguracja i Uruchomienie
 
-- Przejdź do katalogu terraform/zad3
+- Przejdź do katalogu `cd terraform/zad3`
 - Dodaj brakujący obraz w pliku `images.tf` z wykorzystaniem sekcji `resource`
   Składnia obrazu dostępna jest pod tym [adresem](https://registry.terraform.io/providers/kreuzwerker/docker/latest/docs/resources/image)
   
