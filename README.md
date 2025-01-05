@@ -210,7 +210,7 @@ Uruchomienie aplikacji lokalnie jako element odwzorowania środowiska docelowego
 ### Modyfikacja i Wdrożenie
 
 - Zapoznaj się z zawartością stworzonego projektu w pliku `__main__.py`
-- Wydaj polecenie `pulumi up`
+- Wydaj polecenie `pulumi up` (albo `pulumilocal up`)
 - Na potrzeby tego zadania każdy z uczestników musi dodać swoje środowisko do zdalnego zasobu zarządzania stanem (app.pulumi.com)
 - Stwórz konto na potrzeby realizacji tego zadania (jest darmowe oraz można je stworzyć z wykorzystaniem GitHuba)
 - Dodaj plik `index.html` w obecnym katalogu:
@@ -274,7 +274,7 @@ Uruchomienie aplikacji lokalnie jako element odwzorowania środowiska docelowego
   ```
 
 - Wydaj polecenie `pulumi preview` by zweryfikować wprowadzone zmiany
-- Wykonaj polecenie `pulumi up` by wdrożyć zmiany
+- Wykonaj polecenie `pulumi up` (albo `pulumilocal up`) by wdrożyć zmiany
 - Czy strona wynikowa działa?
 - Zniszcz środowisko `pulumi down`
 
