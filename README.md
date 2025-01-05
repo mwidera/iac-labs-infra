@@ -101,7 +101,7 @@ Klucz i sekret pobierz z konta AWSowego
 - Zweryfikuj działanie infrastruktury
 - Sprawdź idempotentność stosu poprzez ponowne wydanie polecenia `terraform apply`
 - Wydaj polecenie `terraform state list` a następnie `terraform state show <nazwa_zasobu>` by poznać stan zasobów
-- Zanotuj efekty powyzszych poleceń w sprawozdaniu - jako tekst (**nie** zrzut ekranu, albo załącznik)
+- Zanotuj efekty powyższych dwóch poleceń w sprawozdaniu - jako tekst (**nie** zrzut ekranu, albo załącznik)
 - Zniszcz środowisko poleceniem `terraform destroy`
 
 ### Dodatkowa informacja do zad-1/3-module
@@ -148,7 +148,7 @@ Klucz i sekret pobierz z konta AWSowego
   ```
 
 - Wydaj polecenie `terraform state list` a następnie `terraform show` by poznać stan zasobów
-- Zanotuj efekty powyzszych poleceń w sprawozdaniu - jako tekst (**nie** zrzut ekranu, albo załącznik)
+- Zanotuj efekty powyższych dwóch poleceń w sprawozdaniu - jako tekst (**nie** zrzut ekranu, albo załącznik)
 - Zniszcz środowisko poleceniem `terraform destroy`
 
 ### Pytania do zadania 2
@@ -185,7 +185,7 @@ Uruchomienie aplikacji lokalnie jako element odwzorowania środowiska docelowego
   ```
 
 - Wydaj polecenie `terraform state list` a następnie `terraform show` by poznać stan zasobów
-- Zanotuj efekty powyzszych poleceń w sprawozdaniu - jako tekst (**nie** zrzut ekranu, albo załącznik)
+- Zanotuj efekty powyższych dwóch poleceń w sprawozdaniu - jako tekst (**nie** zrzut ekranu, albo załącznik)
 - Zniszcz środowisko poleceniem `terraform destroy`
 
 ### Pytania do zadania 3
