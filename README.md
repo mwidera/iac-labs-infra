@@ -275,7 +275,7 @@ Pierwszym narzędziem jest [Terrascan](https://github.com/tenable/terrascan)
 - By przeskanować obraz dockera przejdź do katalogu `iac-labs/example-app`
   (jeśli go nie ma to `cd && cd iac-labs-infra && git submodule init && git submodule update`)
 - Wykonaj analizę poleceniem: `terrascan scan -i docker`
-- Na koniec ostatnie ciekawe zastosowanie: `terrascan scan -i k8s -r git -u https://github.com/kubernetes/examples.git`
+- (Wykonaj to polecenie na osobnej zakładce!) Na koniec ostatnie ciekawe zastosowanie: `terrascan scan -i k8s -r git -u https://github.com/kubernetes/examples.git`
   (Uwaga: Możliwe, ze zawiesi nam sie konsola tymczasowo)
 
 Pytania:
