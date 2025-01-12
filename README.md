@@ -265,7 +265,7 @@ Ostatnim zadaniem będzie zapoznanie się z narzędziami pozwalającymi na wykry
 
 Pierwszym narzędziem jest [Terrascan](https://github.com/tenable/terrascan)
 
-- Pobierz narzędzie poleceniem `curl -L -o terrascan.tar.gz https://github.com/tenable/terrascan/releases/download/v1.18.11/terrascan_1.18.11_Linux_x86_64.tar.gz`
+- Pobierz narzędzie poleceniem `curl -L -o terrascan.tar.gz https://github.com/tenable/terrascan/releases/download/v1.19.9/terrascan_1.19.9_Linux_x86_64.tar.gz`
 - Wypakuj archiwum: `tar -xf terrascan.tar.gz terrascan`
 - Zainstaluj: `install terrascan /usr/local/bin && rm terrascan`
 - Zweryfikuj czy narzędzie działa: `terrascan`
