@@ -59,7 +59,7 @@ Kroki obowiązkowe tylko dla portalu: PWK (_Play With Kubernetes_)
   `curl -fsSL -o helm.tar.gz https://get.helm.sh/helm-canary-linux-amd64.tar.gz`
 - Rozpakuj archiwum: `tar -zxvf helm.tar.gz`
 - Przenieś aplikacje: `mv linux-amd64/helm /usr/local/bin/helm`
-- Sprawdź działanie poleceniem: `helm version --short` i spodziewany efekt: `v3.13+unreleased+g276121c`
+- Sprawdź działanie poleceniem: `helm version --short` i spodziewany efekt: `v4.0+unreleased+gbd897c9`
 
 Druga cześć zadania jest oparta o poprzednie wdrożenie serwera nginx
 
