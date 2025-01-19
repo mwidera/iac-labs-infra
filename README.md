@@ -217,7 +217,7 @@ Pytania:
 
 ## Zadanie 3: Bezserwerowe Hello World
 
-Zadanie wymaga konsoli AWS (CloudShell) albo uruchomionego LocalStack'a
+Zadanie wymaga konsoli AWS (CloudShell) albo uruchomionego LocalStack'a (na maszynie wirtualnej z Ubuntu)
 Ma na celu przybliżyć działanie aplikacji bezserwerowych
 
 - Dla osób niekorzystających z AWSa:
