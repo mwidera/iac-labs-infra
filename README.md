@@ -83,7 +83,7 @@ type - można również tworzyć biblioteki (library)
 version - wersja tego pliku
 appVersion - wersja naszej aplikacji
 
-- Otwórz plik `values.yaml` i dodaj w nim:
+- Otwórz plik `values.yaml` i dodaj w nim (zastępując wartości):
 
 ```yaml
 replicaCount: 4
