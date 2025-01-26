@@ -1,0 +1,41 @@
+---
+- name: Deploy and configure Nginx on Docker containers
+  hosts: all
+  become: true
+  tasks:
+    - name: Update APT cache
+      ansible.builtin.apt:
+        update_cache: yes
+
+    - name: Ensure nginx is at the latest version
+      apt: name=nginx state=latest
+      become: true
+
+    - name: Start nginx
+      service:
+          name: nginx
+          state: started
+      become: true
+
+    - name: Copy the nginx config file and restart nginx
+      copy:
+        src: ./static_site.cfg
+        dest: /etc/nginx/sites-available/static_site.cfg
+      become: true
+
+    - name: Create symlink
+      file:
+        src: /etc/nginx/sites-available/static_site.cfg
+        dest: /etc/nginx/sites-enabled/default
+        state: link
+      become: true
+
+    - name: Copy the content of the web site
+      copy:
+        src: ./static-site-src/
+        dest: /home/static-site
+
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted

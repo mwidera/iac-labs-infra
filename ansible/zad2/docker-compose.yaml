@@ -1,0 +1,24 @@
+services:
+  app:
+    build: .
+    container_name: app
+    ports:
+      - "2222:22"
+      - "8080:8080"
+    command: "/usr/sbin/sshd -D"
+    networks:
+      - net
+
+  db:
+    image: postgres
+    container_name: db
+    env_file:
+      - env.docker
+    ports: 
+      - "5432:5432"
+    networks:
+      - net
+
+networks:
+  net:
+    driver: bridge

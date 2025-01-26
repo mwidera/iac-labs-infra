@@ -1,0 +1,55 @@
+---
+- name: Deploy Python app with PostgreSQL using Docker and Ansible
+  hosts: all
+  become: true
+  tasks:
+    - name: Update Ubuntu packages
+      ansible.builtin.apt:
+        update_cache: yes
+        upgrade: dist
+
+    - name: Install system dependencies for Python and Poetry
+      ansible.builtin.apt:
+        name:
+          - python3
+          - python3-pip
+          - curl
+          - git
+          - build-essential
+          - libpq-dev
+        state: present
+
+    - name: Install Poetry
+      ansible.builtin.shell:
+        cmd: |
+          curl -sSL https://install.python-poetry.org | POETRY_HOME=/usr/local python3 -
+        creates: /usr/local/bin/poetry
+
+    - name: Copy application files to the container
+      ansible.builtin.copy:
+        src: ./app/
+        dest: /app/
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: Install dependencies using Poetry
+      ansible.builtin.shell:
+        cmd: |
+          cd /app && poetry install --no-root
+        chdir: /app
+
+    - name: Set environment variables from .env file
+      ansible.builtin.copy:
+        src: ./env.docker
+        dest: /app/.env
+        owner: root
+        group: root
+        mode: '0600'
+
+    - name: Run the application in production mode
+      ansible.builtin.shell:
+        cmd: | 
+          cd /app && poetry run task prod &
+        executable: /bin/bash
+        chdir: /app

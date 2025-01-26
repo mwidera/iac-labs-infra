@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  server1:
+    container_name: server1
+    build: .
+    ports:
+      - "2201:22"
+      - "8081:8080"
+    network_mode: bridge
+    command: "/usr/sbin/sshd -D"
+
+  server2:
+    container_name: server2
+    build: .
+    ports:
+      - "2202:22"
+      - "8082:8080"
+    network_mode: bridge
+    command: "/usr/sbin/sshd -D"
+
+  server3:
+    container_name: server3
+    build: .
+    ports:
+      - "2203:22"
+      - "8083:8080"
+    network_mode: bridge
+    command: "/usr/sbin/sshd -D"

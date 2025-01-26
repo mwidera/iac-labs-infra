@@ -1,0 +1,5 @@
+- name: Test Ansible setup
+  hosts: all
+  tasks:
+    - name: Ping all servers
+      ansible.builtin.ping:
