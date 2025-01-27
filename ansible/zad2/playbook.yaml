@@ -19,12 +19,8 @@
           - libpq-dev
         state: present
 
-    - name: Install Poetry
-      ansible.builtin.shell:
-        cmd: |
-          curl -sSL https://install.python-poetry.org | POETRY_HOME=/usr/local python3 -
-        creates: /usr/local/bin/poetry
-
+    # - name: Install Poetry
+      
     - name: Copy application files to the container
       ansible.builtin.copy:
         src: ./app/
@@ -33,11 +29,8 @@
         group: root
         mode: '0755'
 
-    - name: Install dependencies using Poetry
-      ansible.builtin.shell:
-        cmd: |
-          cd /app && poetry install --no-root
-        chdir: /app
+    # - name: Install dependencies using Poetry
+
 
     - name: Set environment variables from .env file
       ansible.builtin.copy:
