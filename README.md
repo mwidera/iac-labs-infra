@@ -1,6 +1,7 @@
 # Laboratorium numer 4
 
 Pierwsze dwa zadania dotyczą zarządzania konfiguracją z narzędziem [Ansible](https://docs.ansible.com/ansible/latest/index.html)
+
 Trzy kolejne odnoszą się do pojęć Monitoringu i Alertingu z wykorzystaniem narzędzi: Grafana, Loki, Prometheus uruchomionych na klastrze Kubernetes
 
 ## Konfiguracja maszyny wirtualnej
