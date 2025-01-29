@@ -106,7 +106,7 @@ Klucz i sekret pobierz z konta AWSowego
 
 ### Dodatkowa informacja do zad-1/3-module
 
-- W linii 47 pliku `main.tf` zmodyfikuj AMI przed zaaplikowaniem w chmurze AWS
+- W linii 29 pliku `main.tf` zmodyfikuj AMI przed zaaplikowaniem w chmurze AWS
 - Wydaj polecenie `terraform taint <nazwa_zasobu>`, by oznaczyć zasób jako element do zastąpienia i ponów krok wcześniejszy
 
 ### Pytania
