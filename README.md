@@ -181,13 +181,13 @@ Uwaga: jeśli instalacja się nie powiodła sprawdź poprawność wpisywanych ko
 4. Uruchom aplikację:
 
    ```bash
-   docker compose up -d
+   docker-compose up -d
    ```
 
 5. Upewnij się, że wszystkie serwisy zostały uruchomione poprawnie:
 
    ```bash
-   docker compose ps
+   docker-compose ps
    ```
 
    W kolumnie `State` wszystkie powinny mieć status `Up`
