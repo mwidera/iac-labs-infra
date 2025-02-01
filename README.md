@@ -11,7 +11,7 @@ Wykonaj poniższe kroki, aby skonfigurować maszynę wirtualną:
 1. Sklonuj repozytorium:
 
    ```bash
-   git clone https://github.com/mwidera/iac-labs-infra/tree/lab-4
+   git clone -b lab-4 https://github.com/mwidera/iac-labs-infra.git
    ```
 
 2. Skonfiguruj uprawnienia Dockera:
