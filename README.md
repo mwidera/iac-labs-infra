@@ -238,7 +238,7 @@ Jeśli masz ograniczony czas na platformie KillerKoda wykonaj punkty z zadania3:
 3. Naciśnij `Add new data source`
 4. Wyszukaj i wybierz z listy `Loki`
 5. W zakładce URL wpisz: `http://loki:3100`
-6. Na dole strony znajdziesz przycisk `Save & Exit`
+6. Na dole strony znajdziesz przycisk `Save & test`
 7. Naciśnij burger menu w lewym górnym rogu pod logo Grafany (znak: ≡)
 8. Przejdź do `Explore`
 9. Zamień z pola wybieralnego Prometheus na Loki (lewy górny róg strony)
