@@ -20,13 +20,7 @@ Wykonaj poniższe kroki, aby skonfigurować maszynę wirtualną:
    sudo groupadd docker; sudo usermod -aG docker $USER; newgrp docker
    ```
 
-3. Zainstaluj Docker Compose (jeśli nie jest jeszcze zainstalowany):
-
-   ```bash
-   sudo apt install docker-compose
-   ```
-
-4. Zainstaluj `sshpass`:
+3. Zainstaluj `sshpass`:
 
    ```bash
    sudo apt install sshpass
