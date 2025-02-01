@@ -35,7 +35,7 @@ Wykonaj poniższe kroki, aby zastosować konfigurację Ansible:
 1. Przejdź do katalogu `ansible/zad1`:
 
    ```bash
-   cd ansible/zad1
+   cd iac-labs-infra/ansible/zad1
    ```
 
 2. Uruchom wymagane kontenery:
@@ -49,13 +49,13 @@ Wykonaj poniższe kroki, aby zastosować konfigurację Ansible:
 4. Przejdź do katalogu `ansible/zad1` w nowym terminalu:
 
    ```bash
-   cd ansible/zad1
+   cd iac-labs-infra/ansible/zad1
    ```
 
 5. Utwórz wirtualne środowisko Python:
 
    ```bash
-   python -m venv venv
+   python3 -m venv venv
    source venv/bin/activate
    ```
 
@@ -65,22 +65,34 @@ Wykonaj poniższe kroki, aby zastosować konfigurację Ansible:
    pip install ansible
    ```
 
-7. Sprawdź, czy połączenie z uruchomionymi maszynami działa:
+7. Zapoznaj się z plikiem `test-connection.yaml` oraz `site.yaml`
+
+   ```bash
+   cat <nazwa.yaml>
+   ```
+
+   albo
+
+   ```bash
+   nano <nazwa.yaml>
+   ```
+
+8. Sprawdź, czy połączenie z uruchomionymi maszynami działa:
 
    ```bash
    ansible-playbook -i inventory.yaml test-connection.yaml
    ```
 
-8. Zastosuj konfigurację `site.yaml`:
+9. Zastosuj konfigurację `site.yaml`:
 
    ```bash
    ansible-playbook -i inventory.yaml site.yaml
    ```
 
-9. Zatrzymaj kontenery:
+10. Zatrzymaj kontenery:
 
    ```bash
-   docker-compose down
+   docker compose down
    ```
 
 ## Zadanie 2: Uruchomienie Example App z wykorzystaniem Ansible
@@ -90,7 +102,7 @@ Wykonaj poniższe kroki, aby zastosować konfigurację Ansible:
 1. Przejdź do katalogu `ansible/zad2`:
 
    ```bash
-   cd ansible/zad2
+   cd iac-labs-infra/ansible/zad2
    ```
 
 2. Uruchom wymagane kontenery:
@@ -104,13 +116,13 @@ Wykonaj poniższe kroki, aby zastosować konfigurację Ansible:
 4. Przejdź do katalogu `ansible/zad2` w nowym terminalu:
 
    ```bash
-   cd ansible/zad2
+   cd iac-labs-infra/ansible/zad2
    ```
 
 5. Utwórz wirtualne środowisko Python:
 
    ```bash
-   python -m venv venv
+   python3 -m venv venv
    source venv/bin/activate
    ```
 
@@ -121,6 +133,12 @@ Wykonaj poniższe kroki, aby zastosować konfigurację Ansible:
    ```
 
 7. Otwórz plik `playbook.yaml` i dodaj w nim:
+   a. Możesz otworzyć plik w trybie edycji wizualnej (z terminala):
+
+   ```bash
+      xdg-open playbook.yaml
+   ```
+
    a. Instalację poetry z wykorzystaniem poniższej komendy:
 
    ```bash
@@ -143,6 +161,8 @@ Wykonaj poniższe kroki, aby zastosować konfigurację Ansible:
 
 9. Jeśli poprzednia komenda została wykonana z wynikiem `ok` to pod adresem `http://localhost:8080` będzie dostępna aplikacja
 
+Uwaga: jeśli instalacja się nie powiodła sprawdź poprawność wpisywanych komend!
+
 ## Zadanie 3: Monitoring z wykorzystaniem Grafana, Loki
 
 1. Otwórz platformę KillerKoda i na scenariuszu [Kubernetes 1.31](https://killercoda.com/playgrounds/scenario/kubernetes)
@@ -161,13 +181,13 @@ Wykonaj poniższe kroki, aby zastosować konfigurację Ansible:
 4. Uruchom aplikację:
 
    ```bash
-   docker-compose up -d
+   docker compose up -d
    ```
 
 5. Upewnij się, że wszystkie serwisy zostały uruchomione poprawnie:
 
    ```bash
-   docker-compose ps
+   docker compose ps
    ```
 
    W kolumnie `State` wszystkie powinny mieć status `Up`
@@ -292,15 +312,27 @@ Dodatkowo z zadania4 należy powtórzyć punkty: 13-20
 
       1. W okienku C (Threshold) zmodyfikuj wartość `0` na wartość `0.2`
       2. Naciśnij przycisk `Preview` by przestestować, czy dane kondycje nie przekraczają standardowego zachowania aplikacji (wszystkie powinny być oznaczone w sekcji C jako `Normal`)
-    4. W sekcji 3: `Set evaluation behavior`
-       1. Stwórz nowy folder `New folder` i nazwij go: `traffic`
-       2. Dodaj również grupę `New evaluation group` i nazwij ją: `traffic` i wybierz dla jej `10 seconds` okresu ewaluacji
-       3. Pending period ustaw na `None`
-    5. W sekcji 4: `Configure labels and notifications`
-       1. Wybierz Contact Point: `Alert`
- 11. Zapisz używając `Save rule and exit` w górnej części strony
- 12. Przetestuj teraz czy ruch sieciowy wzbudzi stworzoną przez ciebie regułę:
+      3. W sekcji 3: `Set evaluation behavior`
+      4. Stwórz nowy folder `New folder` i nazwij go: `traffic`
+      5. Dodaj również grupę `New evaluation group` i nazwij ją: `traffic` i wybierz dla jej `10 seconds` okresu ewaluacji
+      6. Pending period ustaw na `None`
+      7. W sekcji 4: `Configure labels and notifications`
+      8. Wybierz Contact Point: `Alert`
+11. Zapisz używając `Save rule and exit` w górnej części strony
+12. Przetestuj teraz czy ruch sieciowy wzbudzi stworzoną przez ciebie regułę:
      1. Przejdź na zakładkę przykładowej aplikacji (przykładowo wykonaj dużo operacji głosowania na stronę) - około 50 głosów klikniętych powinno wystarczyć
      2. Zaobserwuj, iż reguła notyfikacji została dostarczona poprawnie na adres [webhook.site](https://webhook.site/)
      3. Przejdź na koniec na zakładkę Grafany: `Alerting` -> `Alerting rules`, by sprawdzić jak grafana notyfikuje o incydencie (rozwiń stworzony alert o nazwie `Alert`)
      4. Ostatecznie sprawdź jeszcze wykres na dashboardzie - powinien wyglądać o wiele ciekawiej
+
+## Pytania do zadań
+
+### Pytania do zadań 1-2
+
+1. Porównaj Ansible do Terraforma i Pulumi
+2. Czy Ansible jest narzędziem deklaratywnego definiowania infrastruktury?
+
+### Pytania do zadań 3-5
+
+3. Czym jest alerting, a czym monitoring?
+4. W jaki sposób monitoring może poinformować nas o błędach w działaniu aplikacji?
