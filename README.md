@@ -274,7 +274,7 @@ Wygląd całej komendy:
 20. W prawym górnym rogu znajdziesz "Save dashboard" i jeszcze raz nazwij go
 21. Teraz dodatkowo dokonamy adnotacji na wypadek błędów - tutaj źródłem tych danych będzie Loki
 22. Naciśnij burger menu w lewym górnym rogu pod logo Grafany (znak: ≡)
-23. Przejdź do zakładki `Dashboards` i naciśnij `Create dashboard`
+23. Przejdź do zakładki `Dashboards` i wejdź w `Ruch Sieciowy`
 24. Naciśnij `Settings` i przejdź do zakładki `Annotations`
 25. Naciśnij `Add annotation query`
 26. Nazwij: `Errors`
