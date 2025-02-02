@@ -210,7 +210,7 @@ Uwaga: jeśli instalacja się nie powiodła sprawdź poprawność wpisywanych ko
    a. Na początku przeanalizujemy co jest publikowane do Grafany przez Prometheus
    a. Wybierz z menu `Metric` parę przykładowych metryk, by przetestować poprawność raportowania
    a. Na końcu wybierz: `tns_request_duration_seconds_count` - metryka ta jest typu `counter` zatem zachowuje się jak licznik - zlicza ilość odwołań w zależności od adresu oraz zwracanego kodu
-   a. Wszystkie możliwe PromQL zapytania i szczegółowe instrukcje możesz znaleźć [tutaj](https:/arometheus.io/docs/prometheus/latest/querying/basics/)
+   a. Wszystkie możliwe PromQL zapytania i szczegółowe instrukcje możesz znaleźć [tutaj](https:/prometheus.io/docs/prometheus/latest/querying/basics/)
    a. Zmodyfikuj Query, tak aby `tns_request_duration_seconds_count` było zliczane co 5 minut:
       - w tym celu zastosuj `rate(<nazwa>[5m])` - zastosowana funkcja `rate(...[5m])` sprawia, że licznik jest resetowany co 5 minut: [dokumentacja](https://prometheus.io/docs/prometheus/latest/querying/functions/#rate)
    a. Ostateczny wygląd funkcji:
