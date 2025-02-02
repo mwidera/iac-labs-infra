@@ -89,7 +89,9 @@ Wykonaj poniższe kroki, aby zastosować konfigurację Ansible:
    ansible-playbook -i inventory.yaml site.yaml
    ```
 
-10. Zatrzymaj kontenery:
+10. Sprawdź dzialanie aplikacji na portach `8081-3`
+
+11. Zatrzymaj kontenery:
 
    ```bash
    docker compose down
